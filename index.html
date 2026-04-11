@@ -1,10 +1,21 @@
-<div dir="rtl" style="font-family:Arial;max-width:1000px;margin:auto;background:#f5f7fa;padding:20px;border-radius:15px;">
+<div dir="rtl" style="font-family:Arial;max-width:1000px;margin:auto;background:linear-gradient(135deg,#e3f2fd,#fce4ec);padding:20px;border-radius:15px;">
+
+  <div style="background:#fff;padding:12px;border-radius:10px;margin-bottom:15px;text-align:center;">
+    🔥 منصة تعليم الأطفال - تعلم ممتع + مستويات + مكافآت
+  </div>
 
   <h1>📚 منصة التعليم الذكية</h1>
   <p>منصة كاملة: طالب + مستويات + تقدم + اختبارات 🎓</p>
 
+  <!-- 🔥 أزرار الربح (CPA زيادة الضغطات) -->
+  <div style="margin:15px 0;">
+    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">🔓 فتح الدروس الكاملة</a>
+    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">📥 تحميل المحتوى المجاني</a>
+    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">🎁 اختبار ذكاء للأطفال</a>
+  </div>
+
   <!-- تسجيل دخول -->
-  <div id="login" style="background:#fff;padding:15px;border-radius:12px;">
+  <div id="login" style="background:#fff;padding:15px;border-radius:12px;margin-top:10px;">
     <h3>👤 تسجيل الطالب</h3>
     <input id="studentName" placeholder="اسم الطالب" style="padding:10px;width:70%;">
     <button onclick="login()" class="btn">دخول</button>
@@ -14,7 +25,6 @@
   <div id="app" style="display:none;">
 
     <h3 id="welcome"></h3>
-
     <h3>📊 التقدم: <span id="progress">0%</span></h3>
 
     <div id="levels">
@@ -70,14 +80,37 @@
 
 <style>
 .btn{
-  background:#2196f3;color:#fff;padding:10px;border:none;border-radius:8px;cursor:pointer;
+  display:inline-block;
+  background:#e91e63;
+  color:#fff;
+  padding:12px 18px;
+  margin:5px;
+  border-radius:10px;
+  text-decoration:none;
+  font-size:16px;
 }
+
 .card{
-  background:#fff;margin-top:15px;padding:15px;border-radius:12px;
+  background:#fff;
+  margin-top:15px;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
 }
+
+.card:hover{
+  transform:scale(1.02);
+}
+
 button{
-  margin:5px;padding:8px;border-radius:6px;border:none;cursor:pointer;
-  background:#28a745;color:#fff;
+  margin:5px;
+  padding:8px;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+  background:#28a745;
+  color:#fff;
 }
 </style>
 
@@ -108,7 +141,6 @@ function startLesson(level){
 }
 
 function answer(level, correct){
-
   if(correct){
     score += 30;
   }
@@ -156,3 +188,6 @@ function addLesson(){
 }
 
 </script>
+
+<!-- 🔥 CPA SCRIPT -->
+<script type="text/javascript" src="https://getafilenow.com/script_include.php?id=1889221"></script>
