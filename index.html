@@ -1,0 +1,161 @@
+<div dir="rtl" style="font-family:Arial;max-width:1000px;margin:auto;background:#f5f7fa;padding:20px;border-radius:15px;">
+
+  <h1>📚 منصة التعليم الذكية</h1>
+  <p>منصة كاملة: طالب + مستويات + تقدم + اختبارات 🎓</p>
+
+  <!-- تسجيل دخول -->
+  <div id="login" style="background:#fff;padding:15px;border-radius:12px;">
+    <h3>👤 تسجيل الطالب</h3>
+    <input id="studentName" placeholder="اسم الطالب" style="padding:10px;width:70%;">
+    <button onclick="login()" class="btn">دخول</button>
+  </div>
+
+  <!-- لوحة الطالب -->
+  <div id="app" style="display:none;">
+
+    <h3 id="welcome"></h3>
+
+    <h3>📊 التقدم: <span id="progress">0%</span></h3>
+
+    <!-- المستويات -->
+    <div id="levels">
+
+      <div class="card" id="l1">
+        <h3>👶 المستوى 1: الأساسيات</h3>
+        <p>حروف + أرقام</p>
+        <button onclick="startLesson(1)">ابدأ الدرس</button>
+        <div id="q1" style="display:none;">
+          <p>❓ A = ؟</p>
+          <button onclick="answer(1,true)">A</button>
+          <button onclick="answer(1,false)">B</button>
+        </div>
+      </div>
+
+      <div class="card" id="l2" style="display:none;">
+        <h3>📘 المستوى 2: جمع بسيط</h3>
+        <p>1 + 1</p>
+        <button onclick="startLesson(2)">ابدأ الدرس</button>
+        <div id="q2" style="display:none;">
+          <p>❓ 1 + 1 = ؟</p>
+          <button onclick="answer(2,true)">2</button>
+          <button onclick="answer(2,false)">3</button>
+        </div>
+      </div>
+
+      <div class="card" id="l3" style="display:none;">
+        <h3>📗 المستوى 3: كلمات</h3>
+        <p>Dog = كلب</p>
+        <button onclick="startLesson(3)">ابدأ الدرس</button>
+        <div id="q3" style="display:none;">
+          <p>❓ Dog معناها؟</p>
+          <button onclick="answer(3,true)">كلب</button>
+          <button onclick="answer(3,false)">قطة</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- لوحة المدرس -->
+    <div style="margin-top:20px;background:#fff;padding:15px;border-radius:12px;">
+      <h3>🧑‍🏫 لوحة المعلم</h3>
+
+      <input id="newLessonTitle" placeholder="عنوان درس جديد" style="padding:8px;width:60%;">
+      <button onclick="addLesson()">إضافة درس</button>
+
+      <div id="teacherLessons"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+.btn{
+  background:#2196f3;color:#fff;padding:10px;border:none;border-radius:8px;cursor:pointer;
+}
+.card{
+  background:#fff;margin-top:15px;padding:15px;border-radius:12px;
+}
+button{
+  margin:5px;padding:8px;border-radius:6px;border:none;cursor:pointer;
+  background:#28a745;color:#fff;
+}
+</style>
+
+<script>
+
+let score = 0;
+let currentUser = "";
+
+function login(){
+  let name = document.getElementById("studentName").value;
+  if(name.length < 2){
+    alert("اكتب اسم صحيح");
+    return;
+  }
+
+  currentUser = name;
+
+  document.getElementById("login").style.display="none";
+  document.getElementById("app").style.display="block";
+
+  document.getElementById("welcome").innerHTML = "👋 أهلاً " + name;
+
+  loadProgress();
+}
+
+function startLesson(level){
+  document.getElementById("q"+level).style.display="block";
+}
+
+function answer(level, correct){
+
+  if(correct){
+    score += 30;
+  }
+
+  saveProgress();
+  updateUI();
+
+  if(score >= 30) document.getElementById("l2").style.display="block";
+  if(score >= 60) document.getElementById("l3").style.display="block";
+}
+
+function updateUI(){
+  document.getElementById("progress").innerText = score + "%";
+}
+
+function saveProgress(){
+  localStorage.setItem(currentUser+"_score", score);
+}
+
+function loadProgress(){
+  let saved = localStorage.getItem(currentUser+"_score");
+  if(saved){
+    score = parseInt(saved);
+    updateUI();
+
+    if(score >= 30) document.getElementById("l2").style.display="block";
+    if(score >= 60) document.getElementById("l3").style.display="block";
+  }
+}
+
+// 🧑‍🏫 إضافة درس (محلي فقط)
+function addLesson(){
+
+  let title = document.getElementById("newLessonTitle").value;
+  if(!title) return;
+
+  let div = document.createElement("div");
+  div.style.marginTop = "10px";
+  div.style.background = "#f1f1f1";
+  div.style.padding = "10px";
+  div.style.borderRadius = "8px";
+  div.innerHTML = "📘 " + title;
+
+  document.getElementById("teacherLessons").appendChild(div);
+
+  document.getElementById("newLessonTitle").value = "";
+}
+
+</script>
