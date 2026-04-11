@@ -17,7 +17,6 @@
 
     <h3>📊 التقدم: <span id="progress">0%</span></h3>
 
-    <!-- المستويات -->
     <div id="levels">
 
       <div class="card" id="l1">
@@ -55,7 +54,7 @@
 
     </div>
 
-    <!-- لوحة المدرس -->
+    <!-- لوحة المعلم -->
     <div style="margin-top:20px;background:#fff;padding:15px;border-radius:12px;">
       <h3>🧑‍🏫 لوحة المعلم</h3>
 
@@ -140,9 +139,7 @@ function loadProgress(){
   }
 }
 
-// 🧑‍🏫 إضافة درس (محلي فقط)
 function addLesson(){
-
   let title = document.getElementById("newLessonTitle").value;
   if(!title) return;
 
