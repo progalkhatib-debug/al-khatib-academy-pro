@@ -1,193 +1,158 @@
-<div dir="rtl" style="font-family:Arial;max-width:1000px;margin:auto;background:linear-gradient(135deg,#e3f2fd,#fce4ec);padding:20px;border-radius:15px;">
-
-  <div style="background:#fff;padding:12px;border-radius:10px;margin-bottom:15px;text-align:center;">
-    🔥 منصة تعليم الأطفال - تعلم ممتع + مستويات + مكافآت
-  </div>
-
-  <h1>📚 منصة التعليم الذكية</h1>
-  <p>منصة كاملة: طالب + مستويات + تقدم + اختبارات 🎓</p>
-
-  <!-- 🔥 أزرار الربح (CPA زيادة الضغطات) -->
-  <div style="margin:15px 0;">
-    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">🔓 فتح الدروس الكاملة</a>
-    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">📥 تحميل المحتوى المجاني</a>
-    <a href="https://getafilenow.com/script_include.php?id=1889221" target="_blank" class="btn">🎁 اختبار ذكاء للأطفال</a>
-  </div>
-
-  <!-- تسجيل دخول -->
-  <div id="login" style="background:#fff;padding:15px;border-radius:12px;margin-top:10px;">
-    <h3>👤 تسجيل الطالب</h3>
-    <input id="studentName" placeholder="اسم الطالب" style="padding:10px;width:70%;">
-    <button onclick="login()" class="btn">دخول</button>
-  </div>
-
-  <!-- لوحة الطالب -->
-  <div id="app" style="display:none;">
-
-    <h3 id="welcome"></h3>
-    <h3>📊 التقدم: <span id="progress">0%</span></h3>
-
-    <div id="levels">
-
-      <div class="card" id="l1">
-        <h3>👶 المستوى 1: الأساسيات</h3>
-        <p>حروف + أرقام</p>
-        <button onclick="startLesson(1)">ابدأ الدرس</button>
-        <div id="q1" style="display:none;">
-          <p>❓ A = ؟</p>
-          <button onclick="answer(1,true)">A</button>
-          <button onclick="answer(1,false)">B</button>
-        </div>
-      </div>
-
-      <div class="card" id="l2" style="display:none;">
-        <h3>📘 المستوى 2: جمع بسيط</h3>
-        <p>1 + 1</p>
-        <button onclick="startLesson(2)">ابدأ الدرس</button>
-        <div id="q2" style="display:none;">
-          <p>❓ 1 + 1 = ؟</p>
-          <button onclick="answer(2,true)">2</button>
-          <button onclick="answer(2,false)">3</button>
-        </div>
-      </div>
-
-      <div class="card" id="l3" style="display:none;">
-        <h3>📗 المستوى 3: كلمات</h3>
-        <p>Dog = كلب</p>
-        <button onclick="startLesson(3)">ابدأ الدرس</button>
-        <div id="q3" style="display:none;">
-          <p>❓ Dog معناها؟</p>
-          <button onclick="answer(3,true)">كلب</button>
-          <button onclick="answer(3,false)">قطة</button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- لوحة المعلم -->
-    <div style="margin-top:20px;background:#fff;padding:15px;border-radius:12px;">
-      <h3>🧑‍🏫 لوحة المعلم</h3>
-
-      <input id="newLessonTitle" placeholder="عنوان درس جديد" style="padding:8px;width:60%;">
-      <button onclick="addLesson()">إضافة درس</button>
-
-      <div id="teacherLessons"></div>
-    </div>
-
-  </div>
-
-</div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>منصة التعليم الذكية</title>
 
 <style>
-.btn{
-  display:inline-block;
-  background:#e91e63;
-  color:#fff;
-  padding:12px 18px;
-  margin:5px;
-  border-radius:10px;
-  text-decoration:none;
-  font-size:16px;
+body{
+    font-family:Arial;
+    margin:0;
+    background:#f5f7fb;
+    text-align:center;
+}
+
+.header{
+    background:linear-gradient(135deg,#2196f3,#9c27b0);
+    color:white;
+    padding:20px;
+    font-size:22px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:15px;
 }
 
 .card{
-  background:#fff;
-  margin-top:15px;
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.1);
-  transition:0.3s;
+    background:white;
+    margin:15px 0;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
 }
 
 .card:hover{
-  transform:scale(1.02);
+    transform:scale(1.02);
 }
 
-button{
-  margin:5px;
-  padding:8px;
-  border-radius:6px;
-  border:none;
-  cursor:pointer;
-  background:#28a745;
-  color:#fff;
+.stage{
+    display:inline-block;
+    background:#ff5722;
+    color:white;
+    padding:10px 15px;
+    margin:5px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.videoBox{
+    display:none;
+    margin-top:15px;
+}
+
+iframe{
+    width:100%;
+    height:250px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.btn{
+    display:inline-block;
+    background:#28a745;
+    color:white;
+    padding:12px 18px;
+    margin-top:15px;
+    border-radius:10px;
+    text-decoration:none;
 }
 </style>
 
+</head>
+
+<body>
+
+<div class="header">
+📚 منصة التعليم الذكية للأطفال
+</div>
+
+<div class="container">
+
+<h2>🎯 اختر المرحلة التعليمية</h2>
+
+<div class="stage" onclick="show('kg')">الحضانة</div>
+<div class="stage" onclick="show('g1')">الأول والثاني</div>
+<div class="stage" onclick="show('g2')">الثالث والرابع</div>
+<div class="stage" onclick="show('g3')">الخامس والسادس</div>
+<div class="stage" onclick="show('mid')">الإعدادي</div>
+
+<!-- الحضانة -->
+<div class="card videoBox" id="kg">
+<h3>👶 الحضانة</h3>
+<iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+<iframe src="https://www.youtube.com/embed/ScMzIvxBSi4"></iframe>
+</div>
+
+<!-- الأول والثاني -->
+<div class="card videoBox" id="g1">
+<h3>📘 الصف الأول والثاني</h3>
+<iframe src="https://www.youtube.com/embed/5MgBikgcWnY"></iframe>
+</div>
+
+<!-- الثالث والرابع -->
+<div class="card videoBox" id="g2">
+<h3>📗 الصف الثالث والرابع</h3>
+<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+</div>
+
+<!-- الخامس والسادس -->
+<div class="card videoBox" id="g3">
+<h3>📙 الصف الخامس والسادس</h3>
+<iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk"></iframe>
+</div>
+
+<!-- الإعدادي -->
+<div class="card videoBox" id="mid">
+<h3>📕 المرحلة الإعدادية</h3>
+<iframe src="https://www.youtube.com/embed/OPf0YbXqDm0"></iframe>
+</div>
+
+<!-- زر الربح -->
+<div style="margin-top:25px;background:white;padding:15px;border-radius:12px;">
+
+<h3>🚀 تحميل التطبيق الكامل</h3>
+<p>احصل على النسخة الكاملة من المنصة التعليمية</p>
+
+<a href="YOUR_CPA_LINK" target="_blank" class="btn">
+📥 تحميل الآن
+</a>
+
+<p style="font-size:12px;color:gray;margin-top:10px;">
+قد يتم طلب رقم الهاتف لإكمال العملية
+</p>
+
+</div>
+
+</div>
+
 <script>
 
-let score = 0;
-let currentUser = "";
+function show(id){
 
-function login(){
-  let name = document.getElementById("studentName").value;
-  if(name.length < 2){
-    alert("اكتب اسم صحيح");
-    return;
-  }
+    // اخفاء كل الفيديوهات
+    document.querySelectorAll('.videoBox').forEach(v=>{
+        v.style.display="none";
+    });
 
-  currentUser = name;
-
-  document.getElementById("login").style.display="none";
-  document.getElementById("app").style.display="block";
-
-  document.getElementById("welcome").innerHTML = "👋 أهلاً " + name;
-
-  loadProgress();
-}
-
-function startLesson(level){
-  document.getElementById("q"+level).style.display="block";
-}
-
-function answer(level, correct){
-  if(correct){
-    score += 30;
-  }
-
-  saveProgress();
-  updateUI();
-
-  if(score >= 30) document.getElementById("l2").style.display="block";
-  if(score >= 60) document.getElementById("l3").style.display="block";
-}
-
-function updateUI(){
-  document.getElementById("progress").innerText = score + "%";
-}
-
-function saveProgress(){
-  localStorage.setItem(currentUser+"_score", score);
-}
-
-function loadProgress(){
-  let saved = localStorage.getItem(currentUser+"_score");
-  if(saved){
-    score = parseInt(saved);
-    updateUI();
-
-    if(score >= 30) document.getElementById("l2").style.display="block";
-    if(score >= 60) document.getElementById("l3").style.display="block";
-  }
-}
-
-function addLesson(){
-  let title = document.getElementById("newLessonTitle").value;
-  if(!title) return;
-
-  let div = document.createElement("div");
-  div.style.marginTop = "10px";
-  div.style.background = "#f1f1f1";
-  div.style.padding = "10px";
-  div.style.borderRadius = "8px";
-  div.innerHTML = "📘 " + title;
-
-  document.getElementById("teacherLessons").appendChild(div);
-
-  document.getElementById("newLessonTitle").value = "";
+    // اظهار المرحلة المختارة
+    document.getElementById(id).style.display="block";
 }
 
 </script>
 
-<!-- 🔥 CPA SCRIPT -->
-<script type="text/javascript" src="https://getafilenow.com/script_include.php?id=1889221"></script>
+</body>
+</html>
