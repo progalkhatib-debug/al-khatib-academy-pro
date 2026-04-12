@@ -1,24 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <title>منصة تعليم الأطفال | تعلم الحروف والأرقام بطريقة ممتعة</title>
-
-<meta name="description" content="منصة تعليمية للأطفال من الحضانة حتى الإعدادي. دروس تفاعلية + فيديوهات + ألعاب تعليمية ونظام نقاط لتحفيز التعلم.">
-
-<meta name="keywords" content="تعليم الأطفال, تعلم الحروف, تعليم الأرقام, تعليم مجاني, منصة تعليمية, دروس للأطفال, تعليم تفاعلي">
-
-<meta name="author" content="Al Khatib Academy Pro">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta property="og:title" content="منصة تعليم الأطفال التفاعلية">
-<meta property="og:description" content="تعلم الحروف والأرقام بطريقة ممتعة مع نظام نقاط وشارات للأطفال">
-<meta property="og:image" content="https://i.imgur.com/your-image.jpg">
-<meta property="og:url" content="https://progalkhatib-debug.github.io/al-khatib-academy-pro/">
-<meta property="og:type" content="website">
 <meta charset="UTF-8">
-
 <title>Kids Learning PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
@@ -27,6 +12,7 @@ body{
     background:#eef3fb;
 }
 
+/* HEADER */
 .header{
     background:linear-gradient(135deg,#3f51b5,#7b2ff7);
     color:white;
@@ -35,12 +21,14 @@ body{
     font-size:18px;
 }
 
+/* CONTAINER */
 .container{
     max-width:520px;
     margin:auto;
     padding:15px;
 }
 
+/* CARD */
 .card{
     background:white;
     padding:15px;
@@ -49,6 +37,7 @@ body{
     box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* BUTTON */
 .btn{
     background:#28a745;
     color:white;
@@ -61,6 +50,7 @@ body{
     cursor:pointer;
 }
 
+/* LEVEL */
 .level{
     background:white;
     padding:12px;
@@ -71,6 +61,12 @@ body{
     justify-content:space-between;
 }
 
+/* LOCKED */
+.locked{
+    opacity:0.5;
+}
+
+/* BADGE */
 .badge{
     background:#ff5722;
     color:white;
@@ -79,22 +75,24 @@ body{
     font-size:12px;
 }
 
+/* PROGRESS */
 .progress{
     background:#ddd;
     height:12px;
     border-radius:20px;
     overflow:hidden;
 }
-
 .bar{
     height:12px;
     width:0%;
     background:linear-gradient(90deg,#00c853,#64dd17);
 }
 
+/* PAGES */
 .page{display:none;}
 .active{display:block;}
 
+/* BADGES */
 .smallBadge{
     display:inline-block;
     background:#673ab7;
@@ -105,22 +103,11 @@ body{
     font-size:12px;
 }
 
+/* ANIMATION */
 .pop{animation:pop 0.3s ease;}
-
 @keyframes pop{
     0%{transform:scale(0.8);}
     100%{transform:scale(1);}
-}
-
-/* تحسين بسيط للهوك (CTR) */
-.cta{
-    background:linear-gradient(135deg,#ff9800,#ff5722);
-    color:white;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:10px;
-    text-align:center;
-    font-weight:bold;
 }
 </style>
 </head>
@@ -128,35 +115,32 @@ body{
 <body>
 
 <div class="header">
-📚 Kids Learning PRO - تعلم بطريقة الألعاب 🎮
+📚 Kids Learning PRO 🎮
 </div>
 
 <div class="container">
-
-<!-- HOOK -->
-<div class="cta">
-🔥 تعلم + نقاط + شارات + مستويات 🎮 ابدأ الآن
-</div>
-
-<!-- LOGIN -->
-<div class="card" id="loginBox">
-    <h3>👤 أدخل اسمك للبدء</h3>
-    <input id="usernameInput" placeholder="اكتب اسمك هنا"
-    style="padding:10px;width:90%;border-radius:8px;border:1px solid #ccc;">
-    <button class="btn" onclick="loginUser()">دخول</button>
-</div>
 
 <!-- HOME -->
 <div id="home" class="page active">
 
 <div class="card">
+
 <h3 id="welcome">👋 مرحبًا</h3>
 
-<div class="progress">
+<input id="nameInput" placeholder="اكتب اسمك"
+style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-top:10px;">
+<button class="btn" onclick="saveName()">ابدأ</button>
+
+<div class="progress" style="margin-top:10px;">
 <div id="bar" class="bar"></div>
 </div>
 
-<p id="score">النقاط: 0</p>
+<p id="score">🔥 لديك 25 نقطة كبداية!</p>
+
+<p style="font-size:13px;color:gray;">
+🎯 أكمل 3 دروس للحصول على أول شارة
+</p>
+
 </div>
 
 <div class="card">
@@ -167,35 +151,39 @@ body{
 <div class="card">
 
 <div class="level" onclick="openLesson('kg')">
-👶 الحضانة <span class="badge">Beginner</span>
+👶 الحضانة <span class="badge">مفتوح</span>
 </div>
 
-<div class="level" onclick="openLesson('primary')">
-📘 ابتدائي <span class="badge">Medium</span>
+<div id="level2" class="level locked">
+📘 ابتدائي <span class="badge">مغلق</span>
 </div>
 
-<div class="level" onclick="openLesson('prep')">
-📗 إعدادي <span class="badge">Advanced</span>
+<div id="level3" class="level locked">
+📗 إعدادي <span class="badge">مغلق</span>
 </div>
 
 </div>
 
 </div>
 
-<!-- LESSON PAGE -->
+<!-- LESSON -->
 <div id="lesson" class="page">
 
 <div class="card">
 
 <h3 id="title"></h3>
 
-<iframe id="video" width="100%" height="220" style="border-radius:12px;" allowfullscreen></iframe>
+<iframe id="video" width="100%" height="220" style="border-radius:12px;"></iframe>
 
 <p>📘 أكمل الدرس لتحصل على نقاط</p>
 
-<button class="btn" onclick="complete()">✔ إنهاء الدرس</button>
+<button class="btn" onclick="complete()">
+✔ إنهاء الدرس
+</button>
 
-<button class="btn" style="background:#555" onclick="back()">⬅ رجوع</button>
+<button class="btn" style="background:#555" onclick="back()">
+⬅ رجوع
+</button>
 
 </div>
 
@@ -205,86 +193,71 @@ body{
 
 <script>
 
-let score = 0;
-let current = "";
+let score = 25;
 let user = "";
 
-/* تسجيل الدخول */
-function loginUser(){
-    let name = document.getElementById("usernameInput").value;
-
-    if(!name || name.length < 2){
-        alert("اكتب اسم صحيح");
-        return;
-    }
-
-    user = name;
-    localStorage.setItem("user", user);
-
-    document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
-    document.getElementById("loginBox").style.display = "none";
-}
-
-/* load */
+/* LOAD */
 window.onload = function(){
 
     let s = localStorage.getItem("score");
     let u = localStorage.getItem("user");
 
     if(s) score = parseInt(s);
+    if(u) user = u;
 
-    if(u){
-        user = u;
+    if(user){
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
-        document.getElementById("loginBox").style.display = "none";
     }
 
     update();
 
     let b = JSON.parse(localStorage.getItem("badges") || "[]");
     b.forEach(addBadge);
+
+    unlockLevels();
 }
 
-/* open lesson */
+/* SAVE NAME */
+function saveName(){
+    let n = document.getElementById("nameInput").value;
+    if(n){
+        localStorage.setItem("user", n);
+        location.reload();
+    }
+}
+
+/* OPEN LESSON */
 function openLesson(id){
 
     document.getElementById("home").classList.remove("active");
     document.getElementById("lesson").classList.add("active");
 
-    current = id;
-
     if(id === "kg"){
-        set("الحضانة - الحروف", "https://www.youtube.com/embed/tgbNymZ7vqY");
-    }
-
-    if(id === "primary"){
-        set("الابتدائي - الأرقام", "https://www.youtube.com/embed/5MgBikgcWnY");
-    }
-
-    if(id === "prep"){
-        set("الإعدادي - الإنجليزية", "https://www.youtube.com/embed/OPf0YbXqDm0");
+        set("الحروف للأطفال", "https://www.youtube.com/embed/tgbNymZ7vqY");
     }
 }
 
+/* SET */
 function set(title, video){
     document.getElementById("title").innerText = title;
     document.getElementById("video").src = video;
 }
 
-/* complete */
+/* COMPLETE */
 function complete(){
 
     score += 25;
     localStorage.setItem("score", score);
 
     update();
+    unlockLevels();
 
-    if(score >= 25) saveBadge("🔰 Starter");
-    if(score >= 75) saveBadge("⭐ Learner");
-    if(score >= 150) saveBadge("🏆 Champion");
+    if(score >= 50) saveBadge("🔰 مبتدئ");
+    if(score >= 100) saveBadge("⭐ متعلم");
+    if(score >= 150) saveBadge("🏆 بطل");
 }
 
-/* save badge */
+/* BADGES */
 function saveBadge(badge){
 
     let arr = JSON.parse(localStorage.getItem("badges") || "[]");
@@ -296,16 +269,7 @@ function saveBadge(badge){
     }
 }
 
-/* UI */
-function update(){
-
-    document.getElementById("score").innerText = "النقاط: " + score;
-
-    let percent = Math.min(score, 100);
-    document.getElementById("bar").style.width = percent + "%";
-}
-
-/* badge */
+/* ADD BADGE */
 function addBadge(text){
 
     let div = document.createElement("div");
@@ -315,7 +279,32 @@ function addBadge(text){
     document.getElementById("badges").appendChild(div);
 }
 
-/* back FIXED */
+/* UPDATE */
+function update(){
+
+    document.getElementById("score").innerText = "🔥 نقاطك: " + score;
+
+    let percent = Math.min(score, 100);
+    document.getElementById("bar").style.width = percent + "%";
+}
+
+/* UNLOCK */
+function unlockLevels(){
+
+    if(score >= 50){
+        let l2 = document.getElementById("level2");
+        l2.classList.remove("locked");
+        l2.onclick = () => openLesson('primary');
+    }
+
+    if(score >= 100){
+        let l3 = document.getElementById("level3");
+        l3.classList.remove("locked");
+        l3.onclick = () => openLesson('prep');
+    }
+}
+
+/* BACK */
 function back(){
     document.getElementById("lesson").classList.remove("active");
     document.getElementById("home").classList.add("active");
