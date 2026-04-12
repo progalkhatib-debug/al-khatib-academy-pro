@@ -111,6 +111,17 @@ body{
     0%{transform:scale(0.8);}
     100%{transform:scale(1);}
 }
+
+/* تحسين بسيط للهوك (CTR) */
+.cta{
+    background:linear-gradient(135deg,#ff9800,#ff5722);
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:10px;
+    text-align:center;
+    font-weight:bold;
+}
 </style>
 </head>
 
@@ -121,6 +132,19 @@ body{
 </div>
 
 <div class="container">
+
+<!-- HOOK -->
+<div class="cta">
+🔥 تعلم + نقاط + شارات + مستويات 🎮 ابدأ الآن
+</div>
+
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+    <h3>👤 أدخل اسمك للبدء</h3>
+    <input id="usernameInput" placeholder="اكتب اسمك هنا"
+    style="padding:10px;width:90%;border-radius:8px;border:1px solid #ccc;">
+    <button class="btn" onclick="loginUser()">دخول</button>
+</div>
 
 <!-- HOME -->
 <div id="home" class="page active">
@@ -165,17 +189,13 @@ body{
 
 <h3 id="title"></h3>
 
-<iframe id="video" width="100%" height="220" style="border-radius:12px;"></iframe>
+<iframe id="video" width="100%" height="220" style="border-radius:12px;" allowfullscreen></iframe>
 
 <p>📘 أكمل الدرس لتحصل على نقاط</p>
 
-<button class="btn" onclick="complete()">
-✔ إنهاء الدرس
-</button>
+<button class="btn" onclick="complete()">✔ إنهاء الدرس</button>
 
-<button class="btn" style="background:#555" onclick="back()">
-⬅ رجوع
-</button>
+<button class="btn" style="background:#555" onclick="back()">⬅ رجوع</button>
 
 </div>
 
@@ -189,6 +209,22 @@ let score = 0;
 let current = "";
 let user = "";
 
+/* تسجيل الدخول */
+function loginUser(){
+    let name = document.getElementById("usernameInput").value;
+
+    if(!name || name.length < 2){
+        alert("اكتب اسم صحيح");
+        return;
+    }
+
+    user = name;
+    localStorage.setItem("user", user);
+
+    document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
+    document.getElementById("loginBox").style.display = "none";
+}
+
 /* load */
 window.onload = function(){
 
@@ -196,10 +232,11 @@ window.onload = function(){
     let u = localStorage.getItem("user");
 
     if(s) score = parseInt(s);
-    if(u) user = u;
 
-    if(user){
+    if(u){
+        user = u;
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
+        document.getElementById("loginBox").style.display = "none";
     }
 
     update();
@@ -238,7 +275,6 @@ function set(title, video){
 function complete(){
 
     score += 25;
-
     localStorage.setItem("score", score);
 
     update();
@@ -260,7 +296,7 @@ function saveBadge(badge){
     }
 }
 
-/* UI update */
+/* UI */
 function update(){
 
     document.getElementById("score").innerText = "النقاط: " + score;
@@ -279,9 +315,8 @@ function addBadge(text){
     document.getElementById("badges").appendChild(div);
 }
 
-/* back */
+/* back FIXED */
 function back(){
-    document.getElementById("lesson").classList.add("active");
     document.getElementById("lesson").classList.remove("active");
     document.getElementById("home").classList.add("active");
 }
