@@ -2,138 +2,177 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>منصة التعليم الذكية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Learning PRO</title>
 
 <style>
 body{
-    font-family:Arial;
     margin:0;
-    background:#f5f7fb;
-    text-align:center;
+    font-family:Arial;
+    background:#eef3fb;
 }
 
+/* HEADER */
 .header{
-    background:linear-gradient(135deg,#2196f3,#9c27b0);
+    background:linear-gradient(135deg,#3f51b5,#7b2ff7);
     color:white;
-    padding:20px;
-    font-size:22px;
+    text-align:center;
+    padding:18px;
+    font-size:18px;
 }
 
+/* CONTAINER */
 .container{
-    max-width:900px;
+    max-width:520px;
     margin:auto;
     padding:15px;
 }
 
+/* CARD */
 .card{
     background:white;
-    margin:15px 0;
     padding:15px;
-    border-radius:12px;
+    margin:12px 0;
+    border-radius:16px;
     box-shadow:0 4px 15px rgba(0,0,0,0.1);
-    cursor:pointer;
-    transition:0.3s;
 }
 
-.card:hover{
-    transform:scale(1.02);
-}
-
-.stage{
-    display:inline-block;
-    background:#ff5722;
-    color:white;
-    padding:10px 15px;
-    margin:5px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-.videoBox{
-    display:none;
-    margin-top:15px;
-}
-
-iframe{
-    width:100%;
-    height:250px;
-    border-radius:10px;
-    margin-top:10px;
-}
-
+/* BUTTON */
 .btn{
-    display:inline-block;
     background:#28a745;
     color:white;
-    padding:12px 18px;
-    margin-top:15px;
+    padding:12px;
+    border:none;
     border-radius:10px;
-    text-decoration:none;
+    width:100%;
+    margin-top:10px;
+    font-size:15px;
+    cursor:pointer;
+}
+
+/* LEVEL BOX */
+.level{
+    background:white;
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+}
+
+/* BADGES */
+.badge{
+    background:#ff5722;
+    color:white;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+/* PROGRESS */
+.progress{
+    background:#ddd;
+    height:12px;
+    border-radius:20px;
+    overflow:hidden;
+}
+.bar{
+    height:12px;
+    width:0%;
+    background:linear-gradient(90deg,#00c853,#64dd17);
+}
+
+/* PAGES */
+.page{display:none;}
+.active{display:block;}
+
+/* small badge */
+.smallBadge{
+    display:inline-block;
+    background:#673ab7;
+    color:white;
+    padding:5px 10px;
+    border-radius:12px;
+    margin:3px;
+    font-size:12px;
+}
+
+/* animation */
+.pop{
+    animation:pop 0.3s ease;
+}
+@keyframes pop{
+    0%{transform:scale(0.8);}
+    100%{transform:scale(1);}
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-📚 منصة التعليم الذكية للأطفال
+📚 Kids Learning PRO - تعلم بطريقة الألعاب 🎮
 </div>
 
 <div class="container">
 
-<h2>🎯 اختر المرحلة التعليمية</h2>
+<!-- HOME -->
+<div id="home" class="page active">
 
-<div class="stage" onclick="show('kg')">الحضانة</div>
-<div class="stage" onclick="show('g1')">الأول والثاني</div>
-<div class="stage" onclick="show('g2')">الثالث والرابع</div>
-<div class="stage" onclick="show('g3')">الخامس والسادس</div>
-<div class="stage" onclick="show('mid')">الإعدادي</div>
+<div class="card">
+<h3>👋 مرحبًا " + name + "</h3>
 
-<!-- الحضانة -->
-<div class="card videoBox" id="kg">
-<h3>👶 الحضانة</h3>
-<iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-<iframe src="https://www.youtube.com/embed/ScMzIvxBSi4"></iframe>
+<div class="progress">
+<div id="bar" class="bar"></div>
 </div>
 
-<!-- الأول والثاني -->
-<div class="card videoBox" id="g1">
-<h3>📘 الصف الأول والثاني</h3>
-<iframe src="https://www.youtube.com/embed/5MgBikgcWnY"></iframe>
+<p id="score">النقاط: 0</p>
 </div>
 
-<!-- الثالث والرابع -->
-<div class="card videoBox" id="g2">
-<h3>📗 الصف الثالث والرابع</h3>
-<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+<div class="card">
+<h3>🏆 شاراتك</h3>
+<div id="badges"></div>
 </div>
 
-<!-- الخامس والسادس -->
-<div class="card videoBox" id="g3">
-<h3>📙 الصف الخامس والسادس</h3>
-<iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk"></iframe>
+<div class="card">
+
+<div class="level" onclick="openLesson('kg')">
+👶 الحضانة <span class="badge">Beginner</span>
 </div>
 
-<!-- الإعدادي -->
-<div class="card videoBox" id="mid">
-<h3>📕 المرحلة الإعدادية</h3>
-<iframe src="https://www.youtube.com/embed/OPf0YbXqDm0"></iframe>
+<div class="level" onclick="openLesson('primary')">
+📘 ابتدائي <span class="badge">Medium</span>
 </div>
 
-<!-- زر الربح -->
-<div style="margin-top:25px;background:white;padding:15px;border-radius:12px;">
+<div class="level" onclick="openLesson('prep')">
+📗 إعدادي <span class="badge">Advanced</span>
+</div>
 
-<h3>🚀 تحميل التطبيق الكامل</h3>
-<p>احصل على النسخة الكاملة من المنصة التعليمية</p>
+</div>
 
-<a href="YOUR_CPA_LINK" target="_blank" class="btn">
-📥 تحميل الآن
-</a>
+</div>
 
-<p style="font-size:12px;color:gray;margin-top:10px;">
-قد يتم طلب رقم الهاتف لإكمال العملية
-</p>
+<!-- LESSON PAGE -->
+<div id="lesson" class="page">
+
+<div class="card">
+
+<h3 id="title"></h3>
+
+<iframe id="video" width="100%" height="220" style="border-radius:12px;"></iframe>
+
+<p>📘 أكمل الدرس لتحصل على نقاط</p>
+
+<button class="btn" onclick="complete()">
+✔ إنهاء الدرس
+</button>
+
+<button class="btn" style="background:#555" onclick="back()">
+⬅ رجوع
+</button>
+
+</div>
 
 </div>
 
@@ -141,15 +180,99 @@ iframe{
 
 <script>
 
-function show(id){
+let score = 0;
+let current = "";
 
-    // اخفاء كل الفيديوهات
-    document.querySelectorAll('.videoBox').forEach(v=>{
-        v.style.display="none";
-    });
+/* load */
+window.onload = function(){
+    let s = localStorage.getItem("score");
+    let b = JSON.parse(localStorage.getItem("badges") || "[]");
 
-    // اظهار المرحلة المختارة
-    document.getElementById(id).style.display="block";
+    if(s) score = parseInt(s);
+
+    update();
+
+    b.forEach(addBadge);
+}
+
+/* open lesson (page system) */
+function openLesson(id){
+
+    document.getElementById("home").classList.remove("active");
+    document.getElementById("lesson").classList.add("active");
+
+    current = id;
+
+    if(id === "kg"){
+        set("الحضانة - الحروف", "https://www.youtube.com/embed/tgbNymZ7vqY");
+    }
+
+    if(id === "primary"){
+        set("الابتدائي - الأرقام", "https://www.youtube.com/embed/5MgBikgcWnY");
+    }
+
+    if(id === "prep"){
+        set("الإعدادي - الإنجليزية", "https://www.youtube.com/embed/OPf0YbXqDm0");
+    }
+}
+
+function set(title, video){
+    document.getElementById("title").innerText = title;
+    document.getElementById("video").src = video;
+}
+
+/* complete lesson */
+function complete(){
+
+    score += 25;
+
+    let badge = "";
+
+    if(score >= 25) badge = "🔰 Starter";
+    if(score >= 75) badge = "⭐ Learner";
+    if(score >= 150) badge = "🏆 Champion";
+    if(score >= 250) badge = "👑 Master";
+
+    save(badge);
+    update();
+}
+
+/* save */
+function save(badge){
+
+    localStorage.setItem("score", score);
+
+    if(badge){
+        let arr = JSON.parse(localStorage.getItem("badges") || "[]");
+
+        if(!arr.includes(badge)){
+            arr.push(badge);
+            localStorage.setItem("badges", JSON.stringify(arr));
+            addBadge(badge);
+        }
+    }
+}
+
+/* UI */
+function update(){
+    document.getElementById("score").innerText = "النقاط: " + score;
+
+    let percent = Math.min(score, 100);
+    document.getElementById("bar").style.width = percent + "%";
+}
+
+/* badges */
+function addBadge(text){
+    let div = document.createElement("div");
+    div.className = "smallBadge pop";
+    div.innerText = text;
+    document.getElementById("badges").appendChild(div);
+}
+
+/* back */
+function back(){
+    document.getElementById("lesson").classList.remove("active");
+    document.getElementById("home").classList.add("active");
 }
 
 </script>
