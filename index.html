@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://progalkhatib-debug.github.io/al-khatib-academy-pro/">
 <meta property="og:type" content="website">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kids Learning PRO</title>
 
 <style>
@@ -27,7 +27,6 @@ body{
     background:#eef3fb;
 }
 
-/* HEADER */
 .header{
     background:linear-gradient(135deg,#3f51b5,#7b2ff7);
     color:white;
@@ -36,14 +35,12 @@ body{
     font-size:18px;
 }
 
-/* CONTAINER */
 .container{
     max-width:520px;
     margin:auto;
     padding:15px;
 }
 
-/* CARD */
 .card{
     background:white;
     padding:15px;
@@ -52,7 +49,6 @@ body{
     box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* BUTTON */
 .btn{
     background:#28a745;
     color:white;
@@ -65,7 +61,6 @@ body{
     cursor:pointer;
 }
 
-/* LEVEL BOX */
 .level{
     background:white;
     padding:12px;
@@ -76,7 +71,6 @@ body{
     justify-content:space-between;
 }
 
-/* BADGES */
 .badge{
     background:#ff5722;
     color:white;
@@ -85,24 +79,22 @@ body{
     font-size:12px;
 }
 
-/* PROGRESS */
 .progress{
     background:#ddd;
     height:12px;
     border-radius:20px;
     overflow:hidden;
 }
+
 .bar{
     height:12px;
     width:0%;
     background:linear-gradient(90deg,#00c853,#64dd17);
 }
 
-/* PAGES */
 .page{display:none;}
 .active{display:block;}
 
-/* small badge */
 .smallBadge{
     display:inline-block;
     background:#673ab7;
@@ -113,10 +105,8 @@ body{
     font-size:12px;
 }
 
-/* animation */
-.pop{
-    animation:pop 0.3s ease;
-}
+.pop{animation:pop 0.3s ease;}
+
 @keyframes pop{
     0%{transform:scale(0.8);}
     100%{transform:scale(1);}
@@ -136,7 +126,7 @@ body{
 <div id="home" class="page active">
 
 <div class="card">
-<h3>👋 مرحبًا " + name + "</h3>
+<h3 id="welcome">👋 مرحبًا</h3>
 
 <div class="progress">
 <div id="bar" class="bar"></div>
@@ -197,20 +187,28 @@ body{
 
 let score = 0;
 let current = "";
+let user = "";
 
 /* load */
 window.onload = function(){
+
     let s = localStorage.getItem("score");
-    let b = JSON.parse(localStorage.getItem("badges") || "[]");
+    let u = localStorage.getItem("user");
 
     if(s) score = parseInt(s);
+    if(u) user = u;
+
+    if(user){
+        document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
+    }
 
     update();
 
+    let b = JSON.parse(localStorage.getItem("badges") || "[]");
     b.forEach(addBadge);
 }
 
-/* open lesson (page system) */
+/* open lesson */
 function openLesson(id){
 
     document.getElementById("home").classList.remove("active");
@@ -236,56 +234,54 @@ function set(title, video){
     document.getElementById("video").src = video;
 }
 
-/* complete lesson */
+/* complete */
 function complete(){
 
     score += 25;
 
-    let badge = "";
-
-    if(score >= 25) badge = "🔰 Starter";
-    if(score >= 75) badge = "⭐ Learner";
-    if(score >= 150) badge = "🏆 Champion";
-    if(score >= 250) badge = "👑 Master";
-
-    save(badge);
-    update();
-}
-
-/* save */
-function save(badge){
-
     localStorage.setItem("score", score);
 
-    if(badge){
-        let arr = JSON.parse(localStorage.getItem("badges") || "[]");
+    update();
 
-        if(!arr.includes(badge)){
-            arr.push(badge);
-            localStorage.setItem("badges", JSON.stringify(arr));
-            addBadge(badge);
-        }
+    if(score >= 25) saveBadge("🔰 Starter");
+    if(score >= 75) saveBadge("⭐ Learner");
+    if(score >= 150) saveBadge("🏆 Champion");
+}
+
+/* save badge */
+function saveBadge(badge){
+
+    let arr = JSON.parse(localStorage.getItem("badges") || "[]");
+
+    if(!arr.includes(badge)){
+        arr.push(badge);
+        localStorage.setItem("badges", JSON.stringify(arr));
+        addBadge(badge);
     }
 }
 
-/* UI */
+/* UI update */
 function update(){
+
     document.getElementById("score").innerText = "النقاط: " + score;
 
     let percent = Math.min(score, 100);
     document.getElementById("bar").style.width = percent + "%";
 }
 
-/* badges */
+/* badge */
 function addBadge(text){
+
     let div = document.createElement("div");
     div.className = "smallBadge pop";
     div.innerText = text;
+
     document.getElementById("badges").appendChild(div);
 }
 
 /* back */
 function back(){
+    document.getElementById("lesson").classList.add("active");
     document.getElementById("lesson").classList.remove("active");
     document.getElementById("home").classList.add("active");
 }
