@@ -222,7 +222,8 @@ function saveName(){
     let n = document.getElementById("nameInput").value;
     if(n){
         localStorage.setItem("user", n);
-        location.reload();
+        document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
+        document.getElementById("nameInput").value = "";
     }
 }
 
@@ -234,6 +235,14 @@ function openLesson(id){
 
     if(id === "kg"){
         set("الحروف للأطفال", "https://www.youtube.com/embed/tgbNymZ7vqY");
+    }
+
+    if(id === "primary"){
+        set("الأرقام للأطفال", "https://www.youtube.com/embed/5MgBikgcWnY");
+    }
+
+    if(id === "prep"){
+        set("الإنجليزية للأطفال", "https://www.youtube.com/embed/OPf0YbXqDm0");
     }
 }
 
