@@ -268,23 +268,55 @@ function set(t,v,txt){
 
 /* COMPLETE */
 function complete(){
+
     score += 25;
     localStorage.setItem("score", score);
+
     update();
     unlockLevels();
+
+    // 🟢 تشغيل المكافأة عند الوصول لـ 50+
+    if(score >= 50){
+        setTimeout(() => {
+            openReward();
+        }, 1000);
+    }
 }
 
-/* 🔥 CPA REWARD */
+
+/* 🔥 CPA REWARD - تحسين التحويل */
 function openReward(){
-    window.location.href = "YOUR-CPAGRIP-LINK";
+
+    // منع تكرار الفتح أكثر من مرة
+    if(localStorage.getItem("rewardOpened") === "yes"){
+        return;
+    }
+
+    localStorage.setItem("rewardOpened", "yes");
+
+    // رسالة ثقة للمستخدم
+    alert("🎁 جاري تجهيز المكافأة التعليمية المجانية...");
+
+    // تأخير بسيط لرفع التحويل
+    setTimeout(() => {
+
+        window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74324";
+
+    }, 2000);
 }
 
-/* UPDATE */
+
+/* UPDATE - بدون تغيير لكن تحسين بسيط */
 function update(){
+
     document.getElementById("score").innerText = "🔥 نقاطك: " + score;
+
     let p = Math.min(score,100);
+
     document.getElementById("bar").style.width = p + "%";
+
 }
+
 
 /* UNLOCK */
 function unlockLevels(){
@@ -295,7 +327,6 @@ function unlockLevels(){
         document.getElementById("level3").classList.remove("locked");
     }
 }
-
 /* BACK */
 function back(){
     document.getElementById("lesson").classList.remove("active");
