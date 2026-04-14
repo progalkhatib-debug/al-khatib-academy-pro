@@ -196,16 +196,18 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 let score = 25;
 let user = "";
 
-/* LOAD */
+/* LOAD - تعديل احترافي بدون حذف بيانات إلا عند أول تشغيل فقط */
 window.onload = function(){
 
     let s = localStorage.getItem("score");
     let u = localStorage.getItem("user");
 
-    if(s) score = parseInt(s);
-    if(u) user = u;
+    if(s !== null){
+        score = parseInt(s);
+    }
 
-    if(user){
+    if(u !== null){
+        user = u;
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
     }
 
@@ -217,17 +219,23 @@ window.onload = function(){
     unlockLevels();
 }
 
-/* SAVE NAME */
+/* SAVE NAME - تحسين التحقق */
 function saveName(){
-    let n = document.getElementById("nameInput").value;
-    if(n){
-        localStorage.setItem("user", n);
-        document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
-        document.getElementById("nameInput").value = "";
+    let n = document.getElementById("nameInput").value.trim();
+
+    if(n === ""){
+        alert("من فضلك اكتب اسمك أولاً");
+        return;
     }
+
+    user = n;
+    localStorage.setItem("user", n);
+
+    document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
+    document.getElementById("nameInput").value = "";
 }
 
-/* OPEN LESSON */
+/* OPEN LESSON - بدون تغيير بنية */
 function openLesson(id){
 
     document.getElementById("home").classList.remove("active");
@@ -252,10 +260,11 @@ function set(title, video){
     document.getElementById("video").src = video;
 }
 
-/* COMPLETE */
+/* COMPLETE - تعديل احترافي مع حفظ البيانات */
 function complete(){
 
     score += 25;
+
     localStorage.setItem("score", score);
 
     update();
