@@ -103,6 +103,16 @@ body{
     font-size:12px;
 }
 
+/* 🔥 AD BOX */
+.adbox{
+    background:#fff3cd;
+    padding:12px;
+    border-radius:12px;
+    text-align:center;
+    margin:10px 0;
+    font-size:13px;
+}
+
 /* ANIMATION */
 .pop{animation:pop 0.3s ease;}
 @keyframes pop{
@@ -129,6 +139,7 @@ body{
 
 <input id="nameInput" placeholder="اكتب اسمك"
 style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-top:10px;">
+
 <button class="btn" onclick="saveName()">ابدأ</button>
 
 <div class="progress" style="margin-top:10px;">
@@ -137,10 +148,14 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <p id="score">🔥 لديك 25 نقطة كبداية!</p>
 
-<p style="font-size:13px;color:gray;">
-🎯 أكمل 3 دروس للحصول على أول شارة
-</p>
+</div>
 
+<!-- 🔥 ربح داخل الصفحة -->
+<div class="adbox">
+🎁 مكافأة مجانية للأطفال متاحة الآن  
+<button class="btn" style="background:#ff5722" onclick="openReward()">
+🎁 فتح المكافأة
+</button>
 </div>
 
 <div class="card">
@@ -175,7 +190,7 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <iframe id="video" width="100%" height="220" style="border-radius:12px;"></iframe>
 
-<p>📘 أكمل الدرس لتحصل على نقاط</p>
+<p id="lessonText"></p>
 
 <button class="btn" onclick="complete()">
 ✔ إنهاء الدرس
@@ -196,15 +211,13 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 let score = 25;
 let user = "";
 
-/* LOAD - تعديل احترافي بدون حذف بيانات إلا عند أول تشغيل فقط */
+/* LOAD */
 window.onload = function(){
 
     let s = localStorage.getItem("score");
     let u = localStorage.getItem("user");
 
-    if(s !== null){
-        score = parseInt(s);
-    }
+    if(s !== null) score = parseInt(s);
 
     if(u !== null){
         user = u;
@@ -219,106 +232,67 @@ window.onload = function(){
     unlockLevels();
 }
 
-/* SAVE NAME - تحسين التحقق */
+/* SAVE NAME */
 function saveName(){
     let n = document.getElementById("nameInput").value.trim();
 
-    if(n === ""){
-        alert("من فضلك اكتب اسمك أولاً");
-        return;
-    }
+    if(!n) return;
 
     user = n;
     localStorage.setItem("user", n);
 
     document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
-    document.getElementById("nameInput").value = "";
 }
 
-/* OPEN LESSON - بدون تغيير بنية */
+/* OPEN LESSON */
 function openLesson(id){
 
     document.getElementById("home").classList.remove("active");
     document.getElementById("lesson").classList.add("active");
 
     if(id === "kg"){
-        set("الحروف للأطفال", "https://www.youtube.com/embed/tgbNymZ7vqY");
+        set("الحروف للأطفال","https://www.youtube.com/embed/tgbNymZ7vqY","تعلم الحروف بسهولة");
     }
 
     if(id === "primary"){
-        set("الأرقام للأطفال", "https://www.youtube.com/embed/5MgBikgcWnY");
-    }
-
-    if(id === "prep"){
-        set("الإنجليزية للأطفال", "https://www.youtube.com/embed/OPf0YbXqDm0");
+        set("الأرقام","https://www.youtube.com/embed/5MgBikgcWnY","تعلم الأرقام من 1 إلى 10");
     }
 }
 
 /* SET */
-function set(title, video){
-    document.getElementById("title").innerText = title;
-    document.getElementById("video").src = video;
+function set(t,v,txt){
+    document.getElementById("title").innerText = t;
+    document.getElementById("video").src = v;
+    document.getElementById("lessonText").innerText = txt;
 }
 
-/* COMPLETE - تعديل احترافي مع حفظ البيانات */
+/* COMPLETE */
 function complete(){
-
     score += 25;
-
     localStorage.setItem("score", score);
-
     update();
     unlockLevels();
-
-    if(score >= 50) saveBadge("🔰 مبتدئ");
-    if(score >= 100) saveBadge("⭐ متعلم");
-    if(score >= 150) saveBadge("🏆 بطل");
 }
 
-/* BADGES */
-function saveBadge(badge){
-
-    let arr = JSON.parse(localStorage.getItem("badges") || "[]");
-
-    if(!arr.includes(badge)){
-        arr.push(badge);
-        localStorage.setItem("badges", JSON.stringify(arr));
-        addBadge(badge);
-    }
-}
-
-/* ADD BADGE */
-function addBadge(text){
-
-    let div = document.createElement("div");
-    div.className = "smallBadge pop";
-    div.innerText = text;
-
-    document.getElementById("badges").appendChild(div);
+/* 🔥 CPA REWARD */
+function openReward(){
+    window.location.href = "YOUR-CPAGRIP-LINK";
 }
 
 /* UPDATE */
 function update(){
-
     document.getElementById("score").innerText = "🔥 نقاطك: " + score;
-
-    let percent = Math.min(score, 100);
-    document.getElementById("bar").style.width = percent + "%";
+    let p = Math.min(score,100);
+    document.getElementById("bar").style.width = p + "%";
 }
 
 /* UNLOCK */
 function unlockLevels(){
-
     if(score >= 50){
-        let l2 = document.getElementById("level2");
-        l2.classList.remove("locked");
-        l2.onclick = () => openLesson('primary');
+        document.getElementById("level2").classList.remove("locked");
     }
-
     if(score >= 100){
-        let l3 = document.getElementById("level3");
-        l3.classList.remove("locked");
-        l3.onclick = () => openLesson('prep');
+        document.getElementById("level3").classList.remove("locked");
     }
 }
 
