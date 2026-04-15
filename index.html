@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>Kids Learning PRO</title>
+<title>Kids Learning PRO MAX</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -76,7 +76,7 @@ body{margin:0;font-family:Arial;background:#eef3fb}
 
 <body>
 
-<div class="header">📚 Kids Learning PRO 🎮</div>
+<div class="header">📚 Kids Learning PRO MAX 🎮</div>
 
 <div class="container">
 
@@ -96,26 +96,21 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 <div id="bar" class="bar"></div>
 </div>
 
-<p id="score">🔥 النقاط: 0</p>
-<p id="level">⭐ المستوى: 1</p>
+<p id="info">🔥 XP: 0 | 🎓 Level: 1</p>
 
 </div>
 
 <div class="card">
 
 <div class="level" onclick="openLesson('kg')">
-👶 الحضانة <span class="badge">مفتوح</span>
-</div>
-
-<div id="level2" class="level locked">
-📘 ابتدائي <span class="badge">مغلق</span>
-</div>
-
-<div id="level3" class="level locked">
-📗 إعدادي <span class="badge">مغلق</span>
+👶 الدرس الأول <span class="badge">XP +25</span>
 </div>
 
 </div>
+
+<button id="rewardBtn" class="btn" style="background:#ff5722;display:none;" onclick="openReward()">
+🎁 فتح المكافأة
+</button>
 
 </div>
 
@@ -124,23 +119,12 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <div class="card">
 
-<h3 id="title"></h3>
+<h3>درس: الحروف</h3>
 
-<iframe id="video" width="100%" height="220" style="border-radius:12px;"></iframe>
+<iframe width="100%" height="220" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
 
-<p id="lessonText"></p>
-
-<button class="btn" onclick="complete()">
-✔ إنهاء الدرس
-</button>
-
-<button class="btn" style="background:#555" onclick="back()">
-⬅ رجوع
-</button>
-
-<button id="rewardBtn" class="btn" style="background:#ff5722;display:none;" onclick="openReward()">
-🎁 فتح المكافأة
-</button>
+<button class="btn" onclick="completeLesson()">✔ إكمال الدرس</button>
+<button class="btn" style="background:#555" onclick="back()">⬅ رجوع</button>
 
 </div>
 
@@ -150,33 +134,30 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <script>
 
-let score = 0;
-let level = 1;
+let xp = 0;
+let lessons = 0;
 let user = "";
-let lessonsDone = 0;
 
 /* حماية الدخول من Landing */
 window.onload = function(){
 
     if(localStorage.getItem("fromLanding") !== "yes"){
-        window.location.href = "YOUR-LANDING-LINK.html";
+        window.location.href = "landing.html";
     }
 
-    score = parseInt(localStorage.getItem("score") || 0);
-    level = parseInt(localStorage.getItem("level") || 1);
+    xp = parseInt(localStorage.getItem("xp") || 0);
+    lessons = parseInt(localStorage.getItem("lessons") || 0);
     user = localStorage.getItem("user") || "";
-    lessonsDone = parseInt(localStorage.getItem("lessonsDone") || 0);
 
     if(user){
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
     }
 
     update();
-    unlockLevels();
-    checkReward();
+    checkRewards();
 }
 
-/* اسم المستخدم */
+/* حفظ الاسم */
 function saveName(){
     let n = document.getElementById("nameInput").value.trim();
     if(!n) return;
@@ -187,83 +168,40 @@ function saveName(){
     document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
 }
 
-/* درس */
-function openLesson(id){
-
+/* فتح درس */
+function openLesson(){
     document.getElementById("home").classList.remove("active");
     document.getElementById("lesson").classList.add("active");
-
-    if(id === "kg"){
-        set("الحروف للأطفال",
-        "https://www.youtube.com/embed/tgbNymZ7vqY",
-        "تعلم الحروف بطريقة سهلة");
-    }
 }
 
-function set(t,v,txt){
-    document.getElementById("title").innerText = t;
-    document.getElementById("video").src = v;
-    document.getElementById("lessonText").innerText = txt;
-}
+/* إكمال درس */
+function completeLesson(){
 
-/* إنهاء الدرس */
-function complete(){
+    xp += 25;
+    lessons += 1;
 
-    score += 25;
-    lessonsDone += 1;
+    localStorage.setItem("xp", xp);
+    localStorage.setItem("lessons", lessons);
 
-    localStorage.setItem("score", score);
-    localStorage.setItem("lessonsDone", lessonsDone);
-
-    checkLevelUp();
     update();
-    unlockLevels();
-    checkReward();
+    checkRewards();
 
-    alert("🎉 ممتاز! أتممت الدرس");
+    alert("🎉 ممتاز! حصلت على XP");
 }
 
-/* مستويات */
-function checkLevelUp(){
-
-    if(score >= 50 && level < 2){
-        level = 2;
-        alert("🎉 وصلت للمستوى 2");
-    }
-
-    if(score >= 100 && level < 3){
-        level = 3;
-        alert("🏆 وصلت للمستوى 3");
-    }
-
-    localStorage.setItem("level", level);
-}
-
-/* تحديث UI */
+/* تحديث */
 function update(){
 
-    document.getElementById("score").innerText = "🔥 النقاط: " + score;
-    document.getElementById("level").innerText = "⭐ المستوى: " + level;
+    document.getElementById("info").innerText =
+        "🔥 XP: " + xp + " | 🎓 Level: " + Math.floor(xp/50 + 1);
 
-    document.getElementById("bar").style.width = Math.min(score,100) + "%";
+    document.getElementById("bar").style.width = Math.min(xp,100) + "%";
 }
 
-/* فتح مستويات */
-function unlockLevels(){
+/* مكافأة */
+function checkRewards(){
 
-    if(score >= 50){
-        document.getElementById("level2").classList.remove("locked");
-    }
-
-    if(score >= 100){
-        document.getElementById("level3").classList.remove("locked");
-    }
-}
-
-/* 🎁 المكافأة بعد درسين */
-function checkReward(){
-
-    if(lessonsDone >= 2){
+    if(lessons >= 2){
         document.getElementById("rewardBtn").style.display = "block";
     }
 }
@@ -271,7 +209,7 @@ function checkReward(){
 /* CPA */
 function openReward(){
 
-    if(lessonsDone < 2){
+    if(lessons < 2){
         alert("🎓 أكمل درسين أولاً");
         return;
     }
