@@ -7,9 +7,9 @@
 
 <style>
 body{
+    margin:0;
     font-family:Arial;
     direction:rtl;
-    margin:0;
     background:linear-gradient(135deg,#eef2ff,#f5f7fb);
     text-align:center;
     padding:30px;
@@ -27,6 +27,9 @@ body{
 button,a{
     cursor:pointer;
 }
+
+h1{margin-bottom:10px;}
+p{color:#444;line-height:1.6;}
 </style>
 </head>
 
@@ -36,13 +39,16 @@ button,a{
 
 <h1>📚 منصة التعليم الذكية للأطفال</h1>
 
-<p>🎮 تعلم بطريقة الألعاب + فيديوهات + مستويات</p>
+<p>🎮 تعلم بطريقة الألعاب + فيديوهات + مستويات + شارات</p>
 
 <h3>⚡ أكثر من 10,000 طفل بدأوا التعلم</h3>
 
-<p style="color:#ff5722;font-weight:bold;">ابدأ الآن مجانًا</p>
+<p style="color:#ff5722;font-weight:bold;">
+🚀 ابدأ الآن مجانًا
+</p>
 
-<button onclick="start()" style="padding:18px 30px;background:#ff5722;color:white;border:none;border-radius:12px;font-size:18px;">
+<button onclick="startLearning()"
+style="padding:18px 30px;background:#ff5722;color:white;border:none;border-radius:12px;font-size:18px;">
 🎁 ابدأ الرحلة التعليمية
 </button>
 
@@ -64,13 +70,15 @@ function setFlag(){
     localStorage.setItem("fromLanding","yes");
 }
 
-function start(){
-    document.getElementById("status").innerText = "جاري التحضير...";
+function startLearning(){
 
-    localStorage.setItem("fromLanding","yes"); // 🔥 أهم سطر
+    document.getElementById("status").innerText = "جاري تجهيز التجربة...";
+
+    localStorage.setItem("fromLanding","yes");
 
     setTimeout(()=>{
-        window.location.href = "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
+        window.location.href =
+        "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
     },1200);
 }
 
