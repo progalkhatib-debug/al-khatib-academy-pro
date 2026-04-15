@@ -40,7 +40,8 @@ cursor:pointer;">
 </p>
 
 <!-- 🚀 دخول مباشر -->
-<a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
+<a href="#"
+onclick="enterDirect()"
 style="display:block;
 background:#28a745;
 color:white;
@@ -54,7 +55,7 @@ font-weight:bold;">
 
 </div>
 
-<!-- 💥 Popup نظيف -->
+<!-- 💥 Popup -->
 <div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;">
   <div style="background:#fff;padding:20px;border-radius:15px;text-align:center;max-width:320px;">
 
@@ -62,7 +63,8 @@ font-weight:bold;">
 
     <p>أكمل أول درس لتحصل على تقدم + نقاط داخل النظام</p>
 
-    <a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
+    <a href="#"
+    onclick="enterDirect()"
     style="background:#28a745;color:white;padding:10px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin-top:10px;">
       ابدأ الآن
     </a>
@@ -81,31 +83,42 @@ font-weight:bold;">
 
 let clicked = false;
 
-/* CTA */
+/* 🔥 دخول للمنصة */
+function goToApp(){
+    localStorage.setItem("fromLanding","yes");
+    window.location.href = "index.html";
+}
+
+/* زر البداية */
 function prepare(){
 
     if(clicked) return;
     clicked = true;
 
-    document.getElementById("status").innerText = "🎯 جاري تجهيز تجربة التعلم...";
+    document.getElementById("status").innerText = "🎯 جاري الدخول...";
 
     setTimeout(()=>{
-        window.location.href = "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
-    },1500);
+        goToApp();
+    },1200);
 }
 
-/* Popup مرة واحدة فقط */
+/* دخول مباشر */
+function enterDirect(){
+    goToApp();
+}
+
+/* Popup */
 window.onload = function(){
 
     if(!localStorage.getItem("popupShown")){
         setTimeout(()=>{
             document.getElementById("popup").style.display = "flex";
-            localStorage.setItem("fromLanding","yes");
+            localStorage.setItem("popupShown","yes");
         },4000);
     }
 }
 
-/* إغلاق popup */
+/* إغلاق */
 function closePopup(){
     document.getElementById("popup").style.display = "none";
 }
