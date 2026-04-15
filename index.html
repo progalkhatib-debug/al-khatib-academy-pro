@@ -139,7 +139,7 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 </button>
 
 <button id="rewardBtn" class="btn" style="background:#ff5722;display:none;" onclick="openReward()">
-🎁 الحصول على المكافأة
+🎁 فتح المكافأة
 </button>
 
 </div>
@@ -153,18 +153,19 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 let score = 0;
 let level = 1;
 let user = "";
+let lessonsDone = 0;
 
 /* حماية الدخول من Landing */
 window.onload = function(){
 
     if(localStorage.getItem("fromLanding") !== "yes"){
-        // لو دخل مباشر يرجعه للـ Landing
         window.location.href = "YOUR-LANDING-LINK.html";
     }
 
     score = parseInt(localStorage.getItem("score") || 0);
     level = parseInt(localStorage.getItem("level") || 1);
     user = localStorage.getItem("user") || "";
+    lessonsDone = parseInt(localStorage.getItem("lessonsDone") || 0);
 
     if(user){
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
@@ -209,7 +210,10 @@ function set(t,v,txt){
 function complete(){
 
     score += 25;
+    lessonsDone += 1;
+
     localStorage.setItem("score", score);
+    localStorage.setItem("lessonsDone", lessonsDone);
 
     checkLevelUp();
     update();
@@ -256,18 +260,19 @@ function unlockLevels(){
     }
 }
 
-/* مكافأة CPA (بعد الإنجاز فقط) */
+/* 🎁 المكافأة بعد درسين */
 function checkReward(){
 
-    if(score >= 50){
+    if(lessonsDone >= 2){
         document.getElementById("rewardBtn").style.display = "block";
     }
 }
 
+/* CPA */
 function openReward(){
 
-    if(score < 50){
-        alert("🎓 أكمل المزيد من الدروس أولاً");
+    if(lessonsDone < 2){
+        alert("🎓 أكمل درسين أولاً");
         return;
     }
 
