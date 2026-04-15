@@ -6,25 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#eef3fb;
-}
+body{margin:0;font-family:Arial;background:#eef3fb}
 
 .header{
     background:linear-gradient(135deg,#3f51b5,#7b2ff7);
     color:white;
     text-align:center;
     padding:18px;
-    font-size:18px;
 }
 
-.container{
-    max-width:520px;
-    margin:auto;
-    padding:15px;
-}
+.container{max-width:520px;margin:auto;padding:15px}
 
 .card{
     background:white;
@@ -42,28 +33,7 @@ body{
     border-radius:10px;
     width:100%;
     margin-top:10px;
-    font-size:15px;
     cursor:pointer;
-}
-
-.level{
-    background:white;
-    padding:12px;
-    margin:10px 0;
-    border-radius:12px;
-    cursor:pointer;
-    display:flex;
-    justify-content:space-between;
-}
-
-.locked{opacity:0.5;}
-
-.badge{
-    background:#ff5722;
-    color:white;
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:12px;
 }
 
 .progress{
@@ -82,23 +52,24 @@ body{
 .page{display:none;}
 .active{display:block;}
 
-.smallBadge{
-    display:inline-block;
-    background:#673ab7;
-    color:white;
-    padding:5px 10px;
+.level{
+    background:white;
+    padding:12px;
+    margin:10px 0;
     border-radius:12px;
-    margin:3px;
-    font-size:12px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
 }
 
-.adbox{
-    background:#fff3cd;
-    padding:12px;
-    border-radius:12px;
-    text-align:center;
-    margin:10px 0;
-    font-size:13px;
+.locked{opacity:0.5}
+
+.badge{
+    background:#ff5722;
+    color:white;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
 }
 </style>
 </head>
@@ -128,11 +99,6 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 <p id="score">🔥 النقاط: 0</p>
 <p id="level">⭐ المستوى: 1</p>
 
-</div>
-
-<div class="card">
-<h3>🏆 الشارات</h3>
-<div id="badges"></div>
 </div>
 
 <div class="card">
@@ -172,6 +138,10 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 ⬅ رجوع
 </button>
 
+<button id="rewardBtn" class="btn" style="background:#ff5722;display:none;" onclick="openReward()">
+🎁 الحصول على المكافأة
+</button>
+
 </div>
 
 </div>
@@ -184,8 +154,13 @@ let score = 0;
 let level = 1;
 let user = "";
 
-/* LOAD */
+/* حماية الدخول من Landing */
 window.onload = function(){
+
+    if(localStorage.getItem("fromLanding") !== "yes"){
+        // لو دخل مباشر يرجعه للـ Landing
+        window.location.href = "YOUR-LANDING-LINK.html";
+    }
 
     score = parseInt(localStorage.getItem("score") || 0);
     level = parseInt(localStorage.getItem("level") || 1);
@@ -197,9 +172,10 @@ window.onload = function(){
 
     update();
     unlockLevels();
+    checkReward();
 }
 
-/* SAVE NAME */
+/* اسم المستخدم */
 function saveName(){
     let n = document.getElementById("nameInput").value.trim();
     if(!n) return;
@@ -210,7 +186,7 @@ function saveName(){
     document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
 }
 
-/* OPEN LESSON */
+/* درس */
 function openLesson(id){
 
     document.getElementById("home").classList.remove("active");
@@ -223,14 +199,13 @@ function openLesson(id){
     }
 }
 
-/* SET */
 function set(t,v,txt){
     document.getElementById("title").innerText = t;
     document.getElementById("video").src = v;
     document.getElementById("lessonText").innerText = txt;
 }
 
-/* COMPLETE LESSON */
+/* إنهاء الدرس */
 function complete(){
 
     score += 25;
@@ -239,37 +214,37 @@ function complete(){
     checkLevelUp();
     update();
     unlockLevels();
+    checkReward();
 
     alert("🎉 ممتاز! أتممت الدرس");
 }
 
-/* LEVEL SYSTEM */
+/* مستويات */
 function checkLevelUp(){
 
     if(score >= 50 && level < 2){
         level = 2;
-        alert("🎉 مبروك! وصلت للمستوى 2");
+        alert("🎉 وصلت للمستوى 2");
     }
 
     if(score >= 100 && level < 3){
         level = 3;
-        alert("🏆 مبروك! وصلت للمستوى 3");
+        alert("🏆 وصلت للمستوى 3");
     }
 
     localStorage.setItem("level", level);
 }
 
-/* UPDATE UI */
+/* تحديث UI */
 function update(){
 
     document.getElementById("score").innerText = "🔥 النقاط: " + score;
     document.getElementById("level").innerText = "⭐ المستوى: " + level;
 
-    let p = Math.min(score,100);
-    document.getElementById("bar").style.width = p + "%";
+    document.getElementById("bar").style.width = Math.min(score,100) + "%";
 }
 
-/* UNLOCK LEVELS */
+/* فتح مستويات */
 function unlockLevels(){
 
     if(score >= 50){
@@ -281,7 +256,28 @@ function unlockLevels(){
     }
 }
 
-/* BACK */
+/* مكافأة CPA (بعد الإنجاز فقط) */
+function checkReward(){
+
+    if(score >= 50){
+        document.getElementById("rewardBtn").style.display = "block";
+    }
+}
+
+function openReward(){
+
+    if(score < 50){
+        alert("🎓 أكمل المزيد من الدروس أولاً");
+        return;
+    }
+
+    localStorage.setItem("reward","yes");
+
+    window.location.href =
+    "https://singingfiles.com/show.php?u=2514927&id=YOUR_OFFER";
+}
+
+/* رجوع */
 function back(){
     document.getElementById("lesson").classList.remove("active");
     document.getElementById("home").classList.add("active");
