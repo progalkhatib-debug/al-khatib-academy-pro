@@ -102,7 +102,7 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <div class="card">
 
-<div class="level" onclick="openLesson('kg')">
+<div class="level" onclick="openLesson()">
 👶 الدرس الأول <span class="badge">XP +25</span>
 </div>
 
@@ -138,12 +138,18 @@ let xp = 0;
 let lessons = 0;
 let user = "";
 
-/* حماية الدخول من Landing */
+/* 🔥 حماية دخول قوية */
 window.onload = function(){
 
-    if(localStorage.getItem("fromLanding") !== "yes"){
-        window.location.href = "landing.html";
+    const fromLanding = localStorage.getItem("fromLanding");
+    const session = sessionStorage.getItem("sessionActive");
+
+    if(fromLanding !== "yes" && session !== "yes"){
+        window.location.replace("landing.html");
+        return;
     }
+
+    sessionStorage.setItem("sessionActive","yes");
 
     xp = parseInt(localStorage.getItem("xp") || 0);
     lessons = parseInt(localStorage.getItem("lessons") || 0);
