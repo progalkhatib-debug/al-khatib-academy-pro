@@ -152,7 +152,7 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <!-- 🔥 ربح داخل الصفحة -->
 <div class="adbox">
-🎁 مكافأة مجانية للأطفال متاحة الآن  
+🎁 مكافأة تعليمية مجانية متاحة الآن  
 <button class="btn" style="background:#ff5722" onclick="openReward()">
 🎁 فتح المكافأة
 </button>
@@ -230,6 +230,9 @@ window.onload = function(){
     b.forEach(addBadge);
 
     unlockLevels();
+
+    // 🔥 مكافأة يومية
+    dailyReward();
 }
 
 /* SAVE NAME */
@@ -275,29 +278,25 @@ function complete(){
     update();
     unlockLevels();
 
-    // 🟢 تشغيل المكافأة عند الوصول لـ 50+
     if(score >= 50){
         setTimeout(() => {
+            alert("🎁 مبروك! لديك مكافأة جديدة");
             openReward();
         }, 1000);
     }
 }
 
-
-/* 🔥 CPA REWARD - تحسين التحويل */
+/* 🔥 CPA REWARD */
 function openReward(){
 
-    // منع تكرار الفتح أكثر من مرة
     if(localStorage.getItem("rewardOpened") === "yes"){
         return;
     }
 
     localStorage.setItem("rewardOpened", "yes");
 
-    // رسالة ثقة للمستخدم
-    alert("🎁 جاري تجهيز المكافأة التعليمية المجانية...");
+    alert("🎁 جاري تجهيز المكافأة التعليمية...");
 
-    // تأخير بسيط لرفع التحويل
     setTimeout(() => {
 
         window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74324";
@@ -305,8 +304,43 @@ function openReward(){
     }, 2000);
 }
 
+/* 🔥 مكافأة يومية */
+function dailyReward(){
 
-/* UPDATE - بدون تغيير لكن تحسين بسيط */
+    let last = localStorage.getItem("lastReward");
+    let now = Date.now();
+
+    if(!last || (now - last) > 86400000){
+
+        localStorage.setItem("lastReward", now);
+
+        setTimeout(() => {
+            alert("🎁 لديك مكافأة يومية!");
+            openReward();
+        }, 3000);
+    }
+}
+
+/* 🔥 مكافأة بعد 30 ثانية */
+setTimeout(() => {
+
+    let rewardBox = document.createElement("div");
+
+    rewardBox.innerHTML = `
+    <div style="background:#e3f2fd;padding:12px;border-radius:12px;text-align:center;margin:10px;">
+        🎁 تم فتح مكافأة جديدة لك
+        <br>
+        <button onclick="openReward()" style="margin-top:8px;padding:10px;border:none;background:#2196f3;color:white;border-radius:8px;">
+        استلام المكافأة
+        </button>
+    </div>
+    `;
+
+    document.querySelector(".container").prepend(rewardBox);
+
+}, 30000);
+
+/* UPDATE */
 function update(){
 
     document.getElementById("score").innerText = "🔥 نقاطك: " + score;
@@ -314,9 +348,7 @@ function update(){
     let p = Math.min(score,100);
 
     document.getElementById("bar").style.width = p + "%";
-
 }
-
 
 /* UNLOCK */
 function unlockLevels(){
@@ -327,6 +359,7 @@ function unlockLevels(){
         document.getElementById("level3").classList.remove("locked");
     }
 }
+
 /* BACK */
 function back(){
     document.getElementById("lesson").classList.remove("active");
