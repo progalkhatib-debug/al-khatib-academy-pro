@@ -8,53 +8,51 @@
 🎮 تعلم بطريقة الألعاب + فيديوهات + شارات + مستويات
 </p>
 
-<!-- 🔥 Social Proof -->
 <div style="background:#fff3cd;padding:14px;border-radius:12px;margin:15px 0;font-size:14px;font-weight:bold;">
 ⚡ أكثر من <span style="color:#e91e63;">10,000 طفل</span> بدأوا التعلم بالفعل  
-<br>🚀 التسجيل المجاني قد يُغلق خلال ساعات
+<br>🚀 ابدأ الآن مجانًا
 </div>
 
-<!-- ⏳ عداد -->
-<div style="font-size:20px;color:#ff5722;font-weight:bold;">
-⏳ متبقي: <span id="time">10</span> ثانية
+<div style="font-size:18px;color:#ff5722;font-weight:bold;">
+⏳ العرض التعليمي متاح الآن
 </div>
 
-<!-- 💥 زر يهتز -->
-<button onclick="go()" id="cta"
+<!-- 🔥 زر CPA (لكن مش مباشر) -->
+<button onclick="prepareReward()" id="cta"
 style="display:inline-block;
 background:linear-gradient(135deg,#ff9800,#ff5722);
 color:white;
-padding:20px 40px;
+padding:18px 35px;
 border:none;
 border-radius:14px;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 box-shadow:0 8px 20px rgba(0,0,0,0.25);
 margin:15px 0;
-cursor:pointer;
-animation:shake 1s infinite;">
-🎁 احصل على المكافآت الآن
+cursor:pointer;">
+🎁 تجهيز المكافأة
 </button>
 
 <p style="font-size:13px;color:gray;">
-✔ بدون تسجيل • ✔ فوري • ✔ مجاني
+✔ لا يحتاج رقم هاتف • ✔ آمن • ✔ مجاني
 </p>
 
-<!-- 🚀 زر التطبيق -->
+<!-- 🚀 زر المنصة (الأهم) -->
 <a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
 style="display:block;
 background:#28a745;
 color:white;
-padding:12px;
+padding:14px;
 border-radius:10px;
 text-decoration:none;
-margin-top:10px;">
-🚀 دخول المنصة
+margin-top:10px;
+font-weight:bold;">
+🚀 ابدأ التعلم الآن
 </a>
 
-<!-- 🔔 إشعارات وهمية -->
+<!-- 🔔 إشعارات -->
 <div id="notify" style="position:fixed;bottom:20px;right:20px;background:#333;color:#fff;padding:10px 15px;border-radius:10px;font-size:13px;display:none;">
-🔥 مستخدم جديد حصل على المكافأة
+🔥 مستخدم جديد بدأ التعلم الآن
 </div>
 
 </div>
@@ -62,38 +60,25 @@ margin-top:10px;">
 <!-- 💥 Popup -->
 <div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);justify-content:center;align-items:center;">
   <div style="background:#fff;padding:20px;border-radius:15px;text-align:center;max-width:300px;">
-    <h3>⚠️ انتظر!</h3>
-    <p>باقي خطوات بسيطة للحصول على المكافأة 🎁</p>
-    <button onclick="go()" style="background:#ff5722;color:white;padding:10px 20px;border:none;border-radius:10px;">
-      أكمل الآن
-    </button>
+    <h3>🎁 مكافأة تعليمية</h3>
+    <p>ابدأ التعلم أولاً ثم احصل على المكافأة</p>
+    <a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
+    style="background:#28a745;color:white;padding:10px 20px;border-radius:10px;text-decoration:none;">
+      ابدأ الآن
+    </a>
   </div>
 </div>
 
-<style>
-@keyframes shake{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
-}
-</style>
-
 <script>
 
-let t = 10;
+/* 🔥 تجهيز المكافأة */
+function prepareReward(){
 
-let x = setInterval(()=>{
-    t--;
-    document.getElementById("time").innerText = t;
+    alert("🎁 سيتم تجهيز المكافأة بعد بدء التعلم");
 
-    if(t <= 0){
-        clearInterval(x);
-    }
-},1000);
-
-/* 🔥 زر CPA */
-function go(){
-    window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74316";
+    setTimeout(()=>{
+        window.location.href = "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
+    },1500);
 }
 
 /* 🔔 إشعارات */
@@ -107,7 +92,7 @@ setInterval(()=>{
 
 },5000);
 
-/* 💥 Popup بعد 5 ثواني */
+/* 💥 Popup */
 setTimeout(()=>{
     document.getElementById("popup").style.display = "flex";
 },5000);
