@@ -47,6 +47,7 @@ p{color:#444;line-height:1.6;}
 🚀 ابدأ الآن مجانًا
 </p>
 
+<!-- زر البداية -->
 <button onclick="startLearning()"
 style="padding:18px 30px;background:#ff5722;color:white;border:none;border-radius:12px;font-size:18px;">
 🎁 ابدأ الرحلة التعليمية
@@ -54,32 +55,40 @@ style="padding:18px 30px;background:#ff5722;color:white;border:none;border-radiu
 
 <br><br>
 
+<!-- دخول مباشر -->
 <a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
 onclick="setFlag()"
 style="display:inline-block;background:#28a745;color:white;padding:14px 20px;border-radius:10px;text-decoration:none;">
 🚀 دخول مباشر للمنصة
 </a>
 
-<p id="status"></p>
+<p id="status" style="margin-top:15px;color:#666;"></p>
 
 </div>
 
 <script>
 
+/* تثبيت الدخول من الصفحة */
 function setFlag(){
     localStorage.setItem("fromLanding","yes");
 }
 
+/* بدء التجربة */
 function startLearning(){
 
-    document.getElementById("status").innerText = "جاري تجهيز التجربة...";
-
     localStorage.setItem("fromLanding","yes");
+
+    document.getElementById("status").innerText = "🎯 جاري تجهيز التجربة التعليمية...";
 
     setTimeout(()=>{
         window.location.href =
         "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
     },1200);
+}
+
+/* حماية إضافية (اختياري لكن مهم) */
+window.onload = function(){
+    localStorage.setItem("fromLanding","yes");
 }
 
 </script>
