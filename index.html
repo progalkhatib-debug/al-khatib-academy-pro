@@ -12,7 +12,6 @@ body{
     background:#eef3fb;
 }
 
-/* HEADER */
 .header{
     background:linear-gradient(135deg,#3f51b5,#7b2ff7);
     color:white;
@@ -21,14 +20,12 @@ body{
     font-size:18px;
 }
 
-/* CONTAINER */
 .container{
     max-width:520px;
     margin:auto;
     padding:15px;
 }
 
-/* CARD */
 .card{
     background:white;
     padding:15px;
@@ -37,7 +34,6 @@ body{
     box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* BUTTON */
 .btn{
     background:#28a745;
     color:white;
@@ -50,7 +46,6 @@ body{
     cursor:pointer;
 }
 
-/* LEVEL */
 .level{
     background:white;
     padding:12px;
@@ -61,12 +56,8 @@ body{
     justify-content:space-between;
 }
 
-/* LOCKED */
-.locked{
-    opacity:0.5;
-}
+.locked{opacity:0.5;}
 
-/* BADGE */
 .badge{
     background:#ff5722;
     color:white;
@@ -75,24 +66,22 @@ body{
     font-size:12px;
 }
 
-/* PROGRESS */
 .progress{
     background:#ddd;
     height:12px;
     border-radius:20px;
     overflow:hidden;
 }
+
 .bar{
     height:12px;
     width:0%;
     background:linear-gradient(90deg,#00c853,#64dd17);
 }
 
-/* PAGES */
 .page{display:none;}
 .active{display:block;}
 
-/* BADGES */
 .smallBadge{
     display:inline-block;
     background:#673ab7;
@@ -103,7 +92,6 @@ body{
     font-size:12px;
 }
 
-/* 🔥 AD BOX */
 .adbox{
     background:#fff3cd;
     padding:12px;
@@ -112,21 +100,12 @@ body{
     margin:10px 0;
     font-size:13px;
 }
-
-/* ANIMATION */
-.pop{animation:pop 0.3s ease;}
-@keyframes pop{
-    0%{transform:scale(0.8);}
-    100%{transform:scale(1);}
-}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-📚 Kids Learning PRO 🎮
-</div>
+<div class="header">📚 Kids Learning PRO 🎮</div>
 
 <div class="container">
 
@@ -146,20 +125,13 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 <div id="bar" class="bar"></div>
 </div>
 
-<p id="score">🔥 لديك 25 نقطة كبداية!</p>
+<p id="score">🔥 النقاط: 0</p>
+<p id="level">⭐ المستوى: 1</p>
 
-</div>
-
-<!-- 🔥 ربح داخل الصفحة -->
-<div class="adbox">
-🎁 مكافأة تعليمية مجانية متاحة الآن  
-<button class="btn" style="background:#ff5722" onclick="openReward()">
-🎁 فتح المكافأة
-</button>
 </div>
 
 <div class="card">
-<h3>🏆 شاراتك</h3>
+<h3>🏆 الشارات</h3>
 <div id="badges"></div>
 </div>
 
@@ -208,37 +180,28 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <script>
 
-let score = 25;
+let score = 0;
+let level = 1;
 let user = "";
 
 /* LOAD */
 window.onload = function(){
 
-    let s = localStorage.getItem("score");
-    let u = localStorage.getItem("user");
+    score = parseInt(localStorage.getItem("score") || 0);
+    level = parseInt(localStorage.getItem("level") || 1);
+    user = localStorage.getItem("user") || "";
 
-    if(s !== null) score = parseInt(s);
-
-    if(u !== null){
-        user = u;
+    if(user){
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
     }
 
     update();
-
-    let b = JSON.parse(localStorage.getItem("badges") || "[]");
-    b.forEach(addBadge);
-
     unlockLevels();
-
-    // 🔥 مكافأة يومية
-    dailyReward();
 }
 
 /* SAVE NAME */
 function saveName(){
     let n = document.getElementById("nameInput").value.trim();
-
     if(!n) return;
 
     user = n;
@@ -254,11 +217,9 @@ function openLesson(id){
     document.getElementById("lesson").classList.add("active");
 
     if(id === "kg"){
-        set("الحروف للأطفال","https://www.youtube.com/embed/tgbNymZ7vqY","تعلم الحروف بسهولة");
-    }
-
-    if(id === "primary"){
-        set("الأرقام","https://www.youtube.com/embed/5MgBikgcWnY","تعلم الأرقام من 1 إلى 10");
+        set("الحروف للأطفال",
+        "https://www.youtube.com/embed/tgbNymZ7vqY",
+        "تعلم الحروف بطريقة سهلة");
     }
 }
 
@@ -269,92 +230,52 @@ function set(t,v,txt){
     document.getElementById("lessonText").innerText = txt;
 }
 
-/* COMPLETE */
+/* COMPLETE LESSON */
 function complete(){
 
     score += 25;
     localStorage.setItem("score", score);
 
+    checkLevelUp();
     update();
     unlockLevels();
 
-    if(score >= 50){
-        setTimeout(() => {
-            alert("🎁 مبروك! لديك مكافأة جديدة");
-            openReward();
-        }, 1000);
-    }
+    alert("🎉 ممتاز! أتممت الدرس");
 }
 
-/* 🔥 CPA REWARD */
-function openReward(){
+/* LEVEL SYSTEM */
+function checkLevelUp(){
 
-    if(localStorage.getItem("rewardOpened") === "yes"){
-        return;
+    if(score >= 50 && level < 2){
+        level = 2;
+        alert("🎉 مبروك! وصلت للمستوى 2");
     }
 
-    localStorage.setItem("rewardOpened", "yes");
-
-    alert("🎁 جاري تجهيز المكافأة التعليمية...");
-
-    setTimeout(() => {
-
-        window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74324";
-
-    }, 2000);
-}
-
-/* 🔥 مكافأة يومية */
-function dailyReward(){
-
-    let last = localStorage.getItem("lastReward");
-    let now = Date.now();
-
-    if(!last || (now - last) > 86400000){
-
-        localStorage.setItem("lastReward", now);
-
-        setTimeout(() => {
-            alert("🎁 لديك مكافأة يومية!");
-            openReward();
-        }, 3000);
+    if(score >= 100 && level < 3){
+        level = 3;
+        alert("🏆 مبروك! وصلت للمستوى 3");
     }
+
+    localStorage.setItem("level", level);
 }
 
-/* 🔥 مكافأة بعد 30 ثانية */
-setTimeout(() => {
-
-    let rewardBox = document.createElement("div");
-
-    rewardBox.innerHTML = `
-    <div style="background:#e3f2fd;padding:12px;border-radius:12px;text-align:center;margin:10px;">
-        🎁 تم فتح مكافأة جديدة لك
-        <br>
-        <button onclick="openReward()" style="margin-top:8px;padding:10px;border:none;background:#2196f3;color:white;border-radius:8px;">
-        استلام المكافأة
-        </button>
-    </div>
-    `;
-
-    document.querySelector(".container").prepend(rewardBox);
-
-}, 30000);
-
-/* UPDATE */
+/* UPDATE UI */
 function update(){
 
-    document.getElementById("score").innerText = "🔥 نقاطك: " + score;
+    document.getElementById("score").innerText = "🔥 النقاط: " + score;
+    document.getElementById("level").innerText = "⭐ المستوى: " + level;
 
     let p = Math.min(score,100);
-
     document.getElementById("bar").style.width = p + "%";
 }
 
-/* UNLOCK */
+/* UNLOCK LEVELS */
 function unlockLevels(){
+
     if(score >= 50){
         document.getElementById("level2").classList.remove("locked");
     }
+
     if(score >= 100){
         document.getElementById("level3").classList.remove("locked");
     }
