@@ -57,9 +57,9 @@ body{margin:0;font-family:Arial;background:#eef3fb}
     padding:12px;
     margin:10px 0;
     border-radius:12px;
-    cursor:pointer;
     display:flex;
     justify-content:space-between;
+    cursor:pointer;
 }
 
 .locked{opacity:0.5}
@@ -102,7 +102,7 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <div class="card">
 
-<div class="level" onclick="openLesson()">
+<div class="level" onclick="openLesson('kg')">
 👶 الدرس الأول <span class="badge">XP +25</span>
 </div>
 
@@ -138,18 +138,14 @@ let xp = 0;
 let lessons = 0;
 let user = "";
 
-/* 🔥 حماية دخول قوية */
+/* 🔥 حماية الدخول */
 window.onload = function(){
 
-    const fromLanding = localStorage.getItem("fromLanding");
-    const session = sessionStorage.getItem("sessionActive");
-
-    if(fromLanding !== "yes" && session !== "yes"){
-        window.location.replace("landing.html");
+    if(localStorage.getItem("fromLanding") !== "yes"){
+        window.location.href =
+        "https://progalkhatib-debug.github.io/al-khatib-academy-pro/landing.html";
         return;
     }
-
-    sessionStorage.setItem("sessionActive","yes");
 
     xp = parseInt(localStorage.getItem("xp") || 0);
     lessons = parseInt(localStorage.getItem("lessons") || 0);
@@ -163,7 +159,7 @@ window.onload = function(){
     checkRewards();
 }
 
-/* حفظ الاسم */
+/* اسم المستخدم */
 function saveName(){
     let n = document.getElementById("nameInput").value.trim();
     if(!n) return;
@@ -199,24 +195,23 @@ function completeLesson(){
 function update(){
 
     document.getElementById("info").innerText =
-        "🔥 XP: " + xp + " | 🎓 Level: " + Math.floor(xp/50 + 1);
+    "🔥 XP: " + xp + " | 🎓 Level: " + Math.floor(xp/50 + 1);
 
     document.getElementById("bar").style.width = Math.min(xp,100) + "%";
 }
 
 /* مكافأة */
 function checkRewards(){
-
     if(lessons >= 2){
         document.getElementById("rewardBtn").style.display = "block";
     }
 }
 
-/* CPA */
+/* CPA OFFER */
 function openReward(){
 
     if(lessons < 2){
-        alert("🎓 أكمل درسين أولاً");
+        alert("أكمل درسين أولاً");
         return;
     }
 
