@@ -1,126 +1,80 @@
-<div style="font-family:Arial;direction:rtl;max-width:900px;margin:auto;background:linear-gradient(135deg,#eef2ff,#f5f7fb);padding:25px;border-radius:18px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.08);position:relative;overflow:hidden;">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Landing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1 style="margin-bottom:10px;font-size:28px;">
-📚 منصة التعليم الذكية للأطفال
-</h1>
+<style>
+body{
+    font-family:Arial;
+    direction:rtl;
+    margin:0;
+    background:linear-gradient(135deg,#eef2ff,#f5f7fb);
+    text-align:center;
+    padding:30px;
+}
 
-<p style="font-size:18px;color:#444;line-height:1.7;">
-🎮 تعلم بطريقة الألعاب + فيديوهات + شارات + مستويات
-</p>
+.box{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
 
-<div style="background:#fff3cd;padding:14px;border-radius:12px;margin:15px 0;font-size:14px;font-weight:bold;">
-⚡ أكثر من <span style="color:#e91e63;">10,000 طفل</span> بدأوا التعلم بالفعل  
-<br>🚀 ابدأ الآن مجانًا
-</div>
+button,a{
+    cursor:pointer;
+}
+</style>
+</head>
 
-<div style="font-size:18px;color:#ff5722;font-weight:bold;">
-⏳ ابدأ أول درس للحصول على التقدم
-</div>
+<body>
 
-<!-- 🔥 زر أساسي -->
-<button onclick="prepare()" id="cta"
-style="display:inline-block;
-background:linear-gradient(135deg,#ff9800,#ff5722);
-color:white;
-padding:18px 35px;
-border:none;
-border-radius:14px;
-font-size:20px;
-font-weight:bold;
-box-shadow:0 8px 20px rgba(0,0,0,0.25);
-margin:15px 0;
-cursor:pointer;">
+<div class="box">
+
+<h1>📚 منصة التعليم الذكية للأطفال</h1>
+
+<p>🎮 تعلم بطريقة الألعاب + فيديوهات + مستويات</p>
+
+<h3>⚡ أكثر من 10,000 طفل بدأوا التعلم</h3>
+
+<p style="color:#ff5722;font-weight:bold;">ابدأ الآن مجانًا</p>
+
+<button onclick="start()" style="padding:18px 30px;background:#ff5722;color:white;border:none;border-radius:12px;font-size:18px;">
 🎁 ابدأ الرحلة التعليمية
 </button>
 
-<p id="status" style="font-size:13px;color:#666;"></p>
+<br><br>
 
-<p style="font-size:13px;color:gray;">
-✔ بدون بيانات • ✔ مجاني • ✔ مناسب للأطفال
-</p>
-
-<!-- 🚀 دخول مباشر -->
-<a href="#"
-onclick="enterDirect()"
-style="display:block;
-background:#28a745;
-color:white;
-padding:14px;
-border-radius:10px;
-text-decoration:none;
-margin-top:10px;
-font-weight:bold;">
+<a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/"
+onclick="setFlag()"
+style="display:inline-block;background:#28a745;color:white;padding:14px 20px;border-radius:10px;text-decoration:none;">
 🚀 دخول مباشر للمنصة
 </a>
 
-</div>
+<p id="status"></p>
 
-<!-- 💥 Popup -->
-<div id="popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;">
-  <div style="background:#fff;padding:20px;border-radius:15px;text-align:center;max-width:320px;">
-
-    <h3>🎓 ابدأ التعلم الآن</h3>
-
-    <p>أكمل أول درس لتحصل على تقدم + نقاط داخل النظام</p>
-
-    <a href="#"
-    onclick="enterDirect()"
-    style="background:#28a745;color:white;padding:10px 20px;border-radius:10px;text-decoration:none;display:inline-block;margin-top:10px;">
-      ابدأ الآن
-    </a>
-
-    <br><br>
-
-    <button onclick="closePopup()"
-    style="background:#ccc;padding:8px 15px;border:none;border-radius:8px;cursor:pointer;">
-      لاحقًا
-    </button>
-
-  </div>
 </div>
 
 <script>
 
-let clicked = false;
-
-/* 🔥 دخول للمنصة */
-function goToApp(){
+function setFlag(){
     localStorage.setItem("fromLanding","yes");
-    window.location.href = "index.html";
 }
 
-/* زر البداية */
-function prepare(){
+function start(){
+    document.getElementById("status").innerText = "جاري التحضير...";
 
-    if(clicked) return;
-    clicked = true;
-
-    document.getElementById("status").innerText = "🎯 جاري الدخول...";
+    localStorage.setItem("fromLanding","yes"); // 🔥 أهم سطر
 
     setTimeout(()=>{
-        goToApp();
+        window.location.href = "https://progalkhatib-debug.github.io/al-khatib-academy-pro/";
     },1200);
 }
 
-/* دخول مباشر */
-function enterDirect(){
-    goToApp();
-}
-
-/* Popup */
-window.onload = function(){
-
-    if(!localStorage.getItem("popupShown")){
-        setTimeout(()=>{
-            document.getElementById("popup").style.display = "flex";
-            localStorage.setItem("popupShown","yes");
-        },4000);
-    }
-}
-
-/* إغلاق */
-function closePopup(){
-    document.getElementById("popup").style.display = "none";
-}
-
 </script>
+
+</body>
+</html>
