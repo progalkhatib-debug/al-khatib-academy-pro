@@ -75,7 +75,6 @@ body{margin:0;font-family:Arial;background:#eef3fb}
     font-size:12px;
 }
 
-/* ⭐ النجوم */
 .stars{
     text-align:center;
     font-size:22px;
@@ -83,7 +82,6 @@ body{margin:0;font-family:Arial;background:#eef3fb}
     color:gold;
 }
 
-/* 👦 شخصية */
 .character{
     text-align:center;
     font-size:14px;
@@ -128,6 +126,8 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 📄 تحميل الشهادة
 </button>
 
+<button class="btn" style="background:#777" onclick="resetData()">🔄 إعادة تعيين</button>
+
 </div>
 
 <!-- LESSON -->
@@ -135,7 +135,6 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <div class="card">
 
-<!-- 👦 شخصية كرتونية -->
 <div class="character">
 <img src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png" width="80">
 <p>👦 هيا بنا نتعلم!</p>
@@ -143,15 +142,10 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 <h3 id="lessonTitle">درس</h3>
 
-<!-- صورة الدرس -->
 <img id="lessonImage" src="" style="width:100%;border-radius:12px;margin-bottom:10px;">
 
-<!-- فيديو -->
-<video id="videoPlayer" width="100%" controls style="border-radius:12px;">
-    <source src="" type="video/mp4">
-</video>
+<iframe id="videoPlayer" width="100%" height="220" style="border-radius:12px;" allowfullscreen></iframe>
 
-<!-- ⭐ النجوم -->
 <div id="stars" class="stars"></div>
 
 <button class="btn" onclick="completeLesson()">✔ إكمال الدرس</button>
@@ -163,38 +157,25 @@ style="padding:10px;border-radius:10px;border:1px solid #ccc;width:100%;margin-t
 
 </div>
 
-<audio id="successSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-
 <script>
 
 let xp = 0;
 let lessons = 0;
 let user = "";
 
-/* الدروس مع صور */
+/* ✅ فيديوهات شغالة */
 const lessonsData = {
     kg: [
-        {title: "الحروف", video: "videos/letters.mp4", img: "images/letters.png"},
-        {title: "الأرقام", video: "videos/numbers.mp4", img: "images/numbers.png"}
-    ],
-    primary: [
-        {title: "القراءة", video: "videos/reading.mp4", img: "images/reading.png"},
-        {title: "الجمع", video: "videos/add.mp4", img: "images/add.png"}
-    ],
-    middle: [
-        {title: "الكسور", video: "videos/fractions.mp4", img: "images/fractions.png"}
-    ],
-    prep: [
-        {title: "المعادلات", video: "videos/equations.mp4", img: "images/equations.png"}
+        {title:"الحروف", video:"https://www.youtube.com/embed/tgbNymZ7vqY", img:"https://i.imgur.com/8Km9tLL.jpg"},
+        {title:"الأرقام", video:"https://www.youtube.com/embed/5MgBikgcWnY", img:"https://i.imgur.com/0DElr0H.jpg"}
     ]
 };
 
-/* حماية */
+/* تحميل */
 window.onload = function(){
 
     if(localStorage.getItem("fromLanding") !== "yes"){
-        window.location.href =
-        "https://progalkhatib-debug.github.io/al-khatib-academy-pro/landing.html";
+        window.location.href = "landing.html";
         return;
     }
 
@@ -204,6 +185,7 @@ window.onload = function(){
 
     if(user){
         document.getElementById("welcome").innerText = "👋 مرحبًا " + user;
+        document.getElementById("nameInput").style.display = "none";
     }
 
     update();
@@ -211,23 +193,28 @@ window.onload = function(){
     renderLevels();
 }
 
+/* حفظ الاسم */
+function saveName(){
+    let n = document.getElementById("nameInput").value.trim();
+    if(!n) return;
+
+    user = n;
+    localStorage.setItem("user", n);
+
+    document.getElementById("welcome").innerText = "👋 مرحبًا " + n;
+    document.getElementById("nameInput").style.display = "none";
+}
+
 /* عرض المراحل */
 function renderLevels(){
-
-    let container = document.getElementById("levelsContainer");
-
-    container.innerHTML = `
+    document.getElementById("levelsContainer").innerHTML = `
     <div class="level" onclick="showLessons('kg')">👶 رياض الأطفال</div>
-    <div class="level ${xp<50?'locked':''}" onclick="showLessons('primary')">🔤 المرحلة الابتدائية</div>
-    <div class="level ${xp<100?'locked':''}" onclick="showLessons('middle')">📘 المرحلة المتوسطة</div>
-    <div class="level ${xp<150?'locked':''}" onclick="showLessons('prep')">🎓 المرحلة الثانوية</div>
     `;
 }
 
 /* عرض الدروس */
 function showLessons(level){
 
-    let container = document.getElementById("levelsContainer");
     let list = lessonsData[level];
 
     let html = `<h3>📖 اختر الدرس</h3>`;
@@ -241,10 +228,10 @@ function showLessons(level){
 
     html += `<button class="btn" onclick="renderLevels()">⬅ رجوع</button>`;
 
-    container.innerHTML = html;
+    document.getElementById("levelsContainer").innerHTML = html;
 }
 
-/* تشغيل */
+/* تشغيل الدرس */
 function playLesson(level, index){
 
     let lesson = lessonsData[level][index];
@@ -259,35 +246,32 @@ function playLesson(level, index){
     document.getElementById("lesson").classList.add("active");
 }
 
-/* إكمال */
+/* إنهاء */
 function completeLesson(){
 
     xp += 25;
-    lessons += 1;
+    lessons++;
 
     localStorage.setItem("xp", xp);
     localStorage.setItem("lessons", lessons);
 
-    document.getElementById("successSound").play();
-
-    // ⭐ عرض النجوم
     document.getElementById("stars").innerHTML = "⭐⭐⭐ ممتاز!";
 
     update();
     checkRewards();
-    renderLevels();
 
-    alert("🎉 رائع!");
+    alert("🎉 أحسنت!");
 }
 
-/* باقي الكود كما هو بدون حذف */
+/* تحديث */
 function update(){
     document.getElementById("info").innerText =
-    "🔥 XP: " + xp + " | 🎓 Level: " + Math.floor(xp/50 + 1);
+    "🔥 XP: " + xp + " | 🎓 Level: " + (Math.floor(xp/50)+1);
 
     document.getElementById("bar").style.width = Math.min(xp,100) + "%";
 }
 
+/* المكافآت */
 function checkRewards(){
     if(lessons >= 2){
         document.getElementById("rewardBtn").style.display = "block";
@@ -297,33 +281,44 @@ function checkRewards(){
     }
 }
 
+/* CPA */
 function openReward(){
     window.location.href =
     "https://singingfiles.com/show.php?l=0&u=2514927&id=74637";
 }
 
+/* شهادة محسنة */
 function downloadCertificate(){
 
     let name = user || "طالب";
 
-    let text = `
-    شهادة إتمام
-    ---------------------
-    نهنئ ${name}
-    لإكماله الدروس بنجاح 🎓
-    `;
+    let html = `
+    <html dir="rtl">
+    <body style="text-align:center;font-family:Arial">
+    <h1>🏆 شهادة إتمام</h1>
+    <p>نهنئ <b>${name}</b></p>
+    <p>لإكماله الدروس بنجاح 🎓</p>
+    </body>
+    </html>`;
 
-    let blob = new Blob([text], {type: "text/plain"});
+    let blob = new Blob([html], {type:"text/html"});
     let link = document.createElement("a");
 
     link.href = URL.createObjectURL(blob);
-    link.download = "certificate.txt";
+    link.download = "certificate.html";
     link.click();
 }
 
+/* رجوع */
 function back(){
     document.getElementById("lesson").classList.remove("active");
     document.getElementById("home").classList.add("active");
+}
+
+/* حل مشكلة البيانات */
+function resetData(){
+    localStorage.clear();
+    location.reload();
 }
 
 </script>
