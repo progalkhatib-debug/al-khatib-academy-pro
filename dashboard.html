@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>📊 لوحة الإحصائيات</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f5f7fb;
+    text-align:center;
+    padding:30px;
+}
+
+.box{
+    max-width:400px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card{
+    background:#eef6ff;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+    font-size:18px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>📊 الإحصائيات</h2>
+
+<div class="card">📍 Landing: <span id="l">0</span></div>
+<div class="card">🚀 Prelander: <span id="p">0</span></div>
+<div class="card">⚡ Direct: <span id="d">0</span></div>
+
+</div>
+
+<script>
+
+/* ⏳ ننتظر تحميل الصفحة أولاً */
+window.onload = function(){
+
+    document.getElementById("l").innerText =
+    localStorage.getItem("landingCount") || 0;
+
+    document.getElementById("p").innerText =
+    localStorage.getItem("prelanderCount") || 0;
+
+    document.getElementById("d").innerText =
+    localStorage.getItem("directCount") || 0;
+
+}
+
+</script>
+
+</body>
+</html>
