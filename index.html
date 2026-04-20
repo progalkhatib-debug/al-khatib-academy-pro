@@ -367,10 +367,17 @@ window.onload = function(){
         localStorage.setItem("directCount", direct + 1);
     }
 }
-</script>
+<script>
+fetch("https://ipwho.is/")
+.then(res => res.json())
+.then(data => {
 
-    <script>
-new Image().src = "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=direct";
+    let country = data.country || "unknown";
+
+    new Image().src =
+    "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=direct&country=" + country;
+
+});
 </script>
 </body>
 </html>
