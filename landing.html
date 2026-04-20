@@ -92,16 +92,18 @@ body{
 
 <!-- دخول مباشر -->
 <a href="https://progalkhatib-debug.github.io/al-khatib-academy-pro/index.html"
-onclick="setFlag()"
+onclick="setFlag('direct')"
 class="btn secBtn">
 🚀 دخول مباشر للمنصة
 </a>
 
-<!-- 🔥 إضافة جديدة بدون حذف أي شيء -->
 <br>
 
-<a href="prelander.html" class="btn secBtn">
-🎁 احصل على مكافأة الآن
+<!-- 🔥 زر المكافأة -->
+<a href="prelander.html"
+onclick="setFlag('prelander')"
+class="btn secBtn">
+🎁 احصل على المكافأة الآن
 </a>
 
 <p id="status" style="margin-top:15px;color:#666;"></p>
@@ -138,18 +140,18 @@ setInterval(()=>{
     },2000);
 },5000);
 
-/* تثبيت الدخول */
-function setFlag(){
-    localStorage.setItem("fromLanding","yes");
+/* 📌 Tracking بسيط */
+function setFlag(type){
+    localStorage.setItem("fromLanding", type);
 }
 
-/* بدء التجربة */
+/* 🚀 زر البداية (معدل صح) */
 function startLearning(){
 
     if(clicked) return;
     clicked = true;
 
-    setFlag();
+    setFlag('start');
 
     let btn = document.getElementById("startBtn");
     btn.innerText = "⏳ جاري الدخول...";
@@ -160,14 +162,13 @@ function startLearning(){
     "🎯 جاري تجهيز التجربة التعليمية...";
 
     setTimeout(()=>{
-        window.location.href =
-"https://progalkhatib-debug.github.io/al-khatib-academy-pro/index.html";
+        window.location.href = "prelander.html";
     },1500);
 }
 
 /* تأكيد الدخول دائمًا */
 window.onload = function(){
-    setFlag();
+    setFlag('landing');
 }
 
 </script>
