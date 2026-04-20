@@ -141,5 +141,10 @@ function go(){
 <script>
 localStorage.setItem("source","prelander");
 </script>
+
+    <script>
+let pre = localStorage.getItem("prelanderCount") || 0;
+localStorage.setItem("prelanderCount", Number(pre) + 1);
+</script>
 </body>
 </html>
