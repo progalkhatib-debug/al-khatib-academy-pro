@@ -97,16 +97,22 @@ class="btn secondary">
 
 </div>
 
-<button onclick="goPrelander()">ابدأ</button>
-
 <script>
+
+/* 🚀 تتبع + تحويل */
 function goPrelander(){
+
+    // تسجيل مصدر الدخول
+    let landing = localStorage.getItem("landingCount") || 0;
+    localStorage.setItem("landingCount", Number(landing) + 1);
+
     localStorage.setItem("source","landing");
+
+    // تحويل للـ prelander
     window.location.href = "prelander.html";
 }
+
 </script>
-<script>
-localStorage.setItem("source","landing");
-</script>
+
 </body>
 </html>
