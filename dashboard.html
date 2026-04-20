@@ -2,31 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>📊 Dashboard</title>
+<title>📊 Dashboard مباشر</title>
 
 <style>
 body{
     font-family:Arial;
-    background:#f5f7fb;
+    background:#111827;
+    color:white;
     text-align:center;
     padding:30px;
 }
 
 .box{
-    max-width:400px;
+    max-width:500px;
     margin:auto;
-    background:white;
+    background:#1f2937;
     padding:25px;
     border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card{
-    background:#eef6ff;
+    background:#374151;
     padding:15px;
     margin:10px 0;
     border-radius:10px;
     font-size:18px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+.big{
+    font-size:22px;
+    font-weight:bold;
+    color:#00ff99;
 }
 </style>
 </head>
@@ -37,28 +47,35 @@ body{
 
 <h2>📊 Dashboard مباشر</h2>
 
-<div class="card">📍 Landing: <span id="l">0</span></div>
-<div class="card">🚀 Prelander: <span id="p">0</span></div>
-<div class="card">⚡ Direct: <span id="d">0</span></div>
+<div class="card">📍 Landing: <span id="l" class="big">0</span></div>
+<div class="card">🚀 Prelander: <span id="p" class="big">0</span></div>
+<div class="card">⚡ Direct: <span id="d" class="big">0</span></div>
+<div class="card">📊 Total: <span id="t" class="big">0</span></div>
 
 </div>
 
 <script>
 
-const url = "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?action=stats";
+const API = "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?action=stats";
 
-async function loadStats(){
+async function loadData(){
 
-    let res = await fetch(url);
-    let data = await res.json();
+    try{
+        let res = await fetch(API);
+        let data = await res.json();
 
-    document.getElementById("l").innerText = data.landing;
-    document.getElementById("p").innerText = data.prelander;
-    document.getElementById("d").innerText = data.direct;
+        document.getElementById("l").innerText = data.landing;
+        document.getElementById("p").innerText = data.prelander;
+        document.getElementById("d").innerText = data.direct;
+        document.getElementById("t").innerText = data.total;
+    }
+    catch(e){
+        console.log("Error loading dashboard");
+    }
 }
 
-loadStats();
-setInterval(loadStats, 5000);
+loadData();
+setInterval(loadData, 5000);
 
 </script>
 
