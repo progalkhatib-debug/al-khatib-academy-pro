@@ -58,6 +58,18 @@ body{
 
 <div class="card">🔥 Conversion: <div id="c" class="big">0%</div></div>
 
+<!-- 🌍 الدول -->
+<div class="card">
+🌍 Top Countries:
+<div id="countries"></div>
+</div>
+
+<!-- 💰 الأرباح -->
+<div class="card">
+💰 Earnings:
+<div id="e" class="big">0$</div>
+</div>
+
 <div class="status" id="status">⏳ جاري التحديث...</div>
 
 </div>
@@ -72,23 +84,43 @@ async function load(){
         let res = await fetch(API);
         let data = await res.json();
 
-        document.getElementById("l").innerText = data.landing;
-        document.getElementById("p").innerText = data.prelander;
-        document.getElementById("d").innerText = data.direct;
-        document.getElementById("t").innerText = data.total;
-        document.getElementById("c").innerText = data.conversion + "%";
+        // الأرقام
+        document.getElementById("l").innerText = data.landing || 0;
+        document.getElementById("p").innerText = data.prelander || 0;
+        document.getElementById("d").innerText = data.direct || 0;
+
+        let total = (data.landing || 0) + (data.prelander || 0) + (data.direct || 0);
+        document.getElementById("t").innerText = total;
+
+        let conversion = data.landing > 0 
+        ? ((data.prelander / data.landing) * 100).toFixed(1) 
+        : 0;
+
+        document.getElementById("c").innerText = conversion + "%";
+
+        // 🌍 الدول
+        if(data.countries){
+            document.getElementById("countries").innerHTML = 
+            Object.entries(data.countries)
+            .sort((a,b)=>b[1]-a[1])
+            .slice(0,5)
+            .map(c => c[0] + " : " + c[1])
+            .join("<br>");
+        }
+
+        // 💰 الأرباح (مثال)
+        let earnings = (data.prelander * 0.5) || 0;
+        document.getElementById("e").innerText = earnings.toFixed(2) + "$";
 
         document.getElementById("status").innerText = "🟢 Live";
-    }
-    catch(e){
+
+    }catch(e){
         document.getElementById("status").innerText = "🔴 Error";
     }
 }
 
-// أول تحميل
+// تشغيل
 load();
-
-// تحديث كل 5 ثواني
 setInterval(load, 5000);
 
 </script>
