@@ -171,21 +171,24 @@ const lessonsData = {
     ]
 };
 
-/* تحميل */
 <script>
+
+let xp = 0;
+let lessons = 0;
+let user = "";
+
+/* تحميل الصفحة */
 window.onload = function(){
 
     // نحفظ مصدر الدخول لو مش موجود
-    if(!localStorage.getItem("fromLanding")){
-        localStorage.setItem("fromLanding","direct");
+    if(!localStorage.getItem("source")){
+        localStorage.setItem("source","direct");
     }
 
-    // تتبع فقط (بدون طرد)
-    let source = localStorage.getItem("fromLanding");
+    let source = localStorage.getItem("source");
     console.log("Source:", source);
-}
-</script>
 
+    // تحميل البيانات
     xp = parseInt(localStorage.getItem("xp") || 0);
     lessons = parseInt(localStorage.getItem("lessons") || 0);
     user = localStorage.getItem("user") || "";
@@ -198,7 +201,22 @@ window.onload = function(){
     update();
     checkRewards();
     renderLevels();
-}
+
+    /* 📊 تتبع الإحصائيات */
+    let landing = parseInt(localStorage.getItem("landingCount") || 0);
+    let prelander = parseInt(localStorage.getItem("prelanderCount") || 0);
+    let direct = parseInt(localStorage.getItem("directCount") || 0);
+
+    if(source === "landing"){
+        localStorage.setItem("landingCount", landing + 1);
+    }
+    else if(source === "prelander"){
+        localStorage.setItem("prelanderCount", prelander + 1);
+    }
+    else{
+        localStorage.setItem("directCount", direct + 1);
+    }
+};
 
 /* حفظ الاسم */
 function saveName(){
@@ -288,12 +306,12 @@ function checkRewards(){
     }
 }
 
-/* CPA (عن طريق الصفحة الوسيطة) */
+/* فتح المكافأة */
 function openReward(){
     window.location.href = "prelander.html";
 }
 
-/* شهادة محسنة */
+/* شهادة */
 function downloadCertificate(){
 
     let name = user || "طالب";
@@ -321,7 +339,7 @@ function back(){
     document.getElementById("home").classList.add("active");
 }
 
-/* حل مشكلة البيانات */
+/* إعادة تعيين */
 function resetData(){
     localStorage.clear();
     location.reload();
