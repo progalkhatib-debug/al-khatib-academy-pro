@@ -2,57 +2,60 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>🎁 تجهيز المكافأة</title>
+<title>🎮 تحدي المكافأة</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
     font-family:Arial;
-    background:#f5f7fb;
+    background:linear-gradient(135deg,#1f1c2c,#928dab);
     text-align:center;
     padding:30px;
+    color:white;
 }
 
 .box{
     max-width:500px;
     margin:auto;
-    background:white;
+    background:rgba(255,255,255,0.1);
     padding:25px;
     border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.bar{
+    width:100%;
+    background:#333;
+    border-radius:10px;
+    overflow:hidden;
+    margin:15px 0;
+}
+
+.fill{
+    height:10px;
+    width:0%;
+    background:#00ff99;
+    transition:1s;
 }
 
 .btn{
-    background:#ff5722;
-    color:white;
+    display:none;
+    background:#00ff99;
+    color:black;
     padding:15px 25px;
     border:none;
     border-radius:10px;
     font-size:18px;
-    margin-top:15px;
     cursor:pointer;
-    display:none;
-}
-
-/* 🔥 حركة الزر */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.07); }
-  100% { transform: scale(1); }
-}
-
-.step{
-    background:#e8f5e9;
-    padding:10px;
-    margin:10px 0;
-    border-radius:10px;
-    font-size:14px;
-}
-
-.timer{
-    color:#ff5722;
+    margin-top:15px;
     font-weight:bold;
-    margin-top:10px;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
 }
 </style>
 </head>
@@ -61,51 +64,44 @@ body{
 
 <div class="box">
 
-<h2>🎁 جاري تجهيز المكافأة</h2>
+<h2>🎮 تحدي الحصول على المكافأة</h2>
 
-<p>🔥 تم تجهيز مكافأتك خصيصًا لك</p>
+<p>اكمل تحميل التحدي للحصول على الهدية 🎁</p>
 
-<p>باقي خطوة واحدة فقط للحصول على الهدية 👇</p>
+<p>📊 نسبة الإنجاز:</p>
 
-<div class="step">✔ تم تحميل المحتوى</div>
-<div class="step">✔ تم التحقق من الجهاز</div>
-<div class="step">✔ متبقي خطوة أخيرة</div>
+<div class="bar">
+    <div class="fill" id="fill"></div>
+</div>
 
-<p class="timer">⏳ يرجى الانتظار: <span id="time">5</span> ثواني</p>
+<p>⏳ تجهيز المكافأة...</p>
 
 <button id="btn" onclick="go()" class="btn">
 🚀 استلام المكافأة الآن
 </button>
 
-<p style="font-size:12px;color:gray;margin-top:10px;">
-⚠️ يجب إكمال الخطوة الأخيرة لتفعيل المكافأة
-</p>
-
 </div>
 
 <script>
 
-let t = 5;
-let btn = document.getElementById("btn");
+let progress = 0;
 
-/* ⏳ العداد */
-let interval = setInterval(()=>{
+let bar = setInterval(()=>{
 
-    t--;
-    document.getElementById("time").innerText = t;
+    progress += 20;
+    document.getElementById("fill").style.width = progress + "%";
 
-    if(t <= 0){
-        clearInterval(interval);
+    if(progress >= 100){
+        clearInterval(bar);
 
-        btn.style.display = "inline-block";
-        btn.style.animation = "pulse 1s infinite";
-
+        document.getElementById("btn").style.display = "inline-block";
     }
 
-},1000);
+},800);
 
 function go(){
-    window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74637";
+    window.location.href =
+    "https://singingfiles.com/show.php?l=0&u=2514927&id=74637";
 }
 
 </script>
