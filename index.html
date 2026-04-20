@@ -172,12 +172,19 @@ const lessonsData = {
 };
 
 /* تحميل */
+<script>
 window.onload = function(){
 
-    if(localStorage.getItem("fromLanding") !== "yes"){
-        window.location.href = "landing.html";
-        return;
+    // نحفظ مصدر الدخول لو مش موجود
+    if(!localStorage.getItem("fromLanding")){
+        localStorage.setItem("fromLanding","direct");
     }
+
+    // تتبع فقط (بدون طرد)
+    let source = localStorage.getItem("fromLanding");
+    console.log("Source:", source);
+}
+</script>
 
     xp = parseInt(localStorage.getItem("xp") || 0);
     lessons = parseInt(localStorage.getItem("lessons") || 0);
@@ -321,6 +328,27 @@ function resetData(){
 }
 
 </script>
+<script>
+window.onload = function(){
 
+    let source = localStorage.getItem("source") || "direct";
+
+    let landing = parseInt(localStorage.getItem("landingCount") || 0);
+    let prelander = parseInt(localStorage.getItem("prelanderCount") || 0);
+    let direct = parseInt(localStorage.getItem("directCount") || 0);
+
+    if(source === "landing"){
+        localStorage.setItem("landingCount", landing + 1);
+    }
+
+    if(source === "prelander"){
+        localStorage.setItem("prelanderCount", prelander + 1);
+    }
+
+    if(source === "direct"){
+        localStorage.setItem("directCount", direct + 1);
+    }
+}
+</script>
 </body>
 </html>
