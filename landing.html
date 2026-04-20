@@ -114,7 +114,16 @@ function goPrelander(){
 
 </script>
 <script>
-new Image().src = "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=landing";
+fetch("https://ipwho.is/")
+.then(res => res.json())
+.then(data => {
+
+    let country = data.country || "unknown";
+
+    new Image().src =
+    "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=landing&country=" + country;
+
+});
 </script>
 </body>
 </html>
