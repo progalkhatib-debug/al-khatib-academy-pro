@@ -56,6 +56,8 @@ body{
 <div class="card">⚡ Direct: <div id="d" class="big">0</div></div>
 <div class="card">📊 Total: <div id="t" class="big">0</div></div>
 
+<div class="card">🔥 Conversion: <div id="c" class="big">0%</div></div>
+
 <div class="status" id="status">⏳ جاري التحديث...</div>
 
 </div>
@@ -74,11 +76,12 @@ async function load(){
         document.getElementById("p").innerText = data.prelander;
         document.getElementById("d").innerText = data.direct;
         document.getElementById("t").innerText = data.total;
+        document.getElementById("c").innerText = data.conversion + "%";
 
         document.getElementById("status").innerText = "🟢 Live";
     }
     catch(e){
-        document.getElementById("status").innerText = "🔴 Error loading data";
+        document.getElementById("status").innerText = "🔴 Error";
     }
 }
 
