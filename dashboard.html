@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>📊 لوحة الإحصائيات</title>
+<title>📊 Dashboard</title>
 
 <style>
 body{
@@ -28,10 +28,6 @@ body{
     border-radius:10px;
     font-size:18px;
 }
-
-h2{
-    margin-bottom:20px;
-}
 </style>
 </head>
 
@@ -39,7 +35,7 @@ h2{
 
 <div class="box">
 
-<h2>📊 الإحصائيات</h2>
+<h2>📊 Dashboard مباشر</h2>
 
 <div class="card">📍 Landing: <span id="l">0</span></div>
 <div class="card">🚀 Prelander: <span id="p">0</span></div>
@@ -49,19 +45,20 @@ h2{
 
 <script>
 
-/* ⏳ ننتظر تحميل الصفحة أولاً */
-window.onload = function(){
+const url = "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?action=stats";
 
-    document.getElementById("l").innerText =
-    localStorage.getItem("landingCount") || 0;
+async function loadStats(){
 
-    document.getElementById("p").innerText =
-    localStorage.getItem("prelanderCount") || 0;
+    let res = await fetch(url);
+    let data = await res.json();
 
-    document.getElementById("d").innerText =
-    localStorage.getItem("directCount") || 0;
-
+    document.getElementById("l").innerText = data.landing;
+    document.getElementById("p").innerText = data.prelander;
+    document.getElementById("d").innerText = data.direct;
 }
+
+loadStats();
+setInterval(loadStats, 5000);
 
 </script>
 
