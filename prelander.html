@@ -40,6 +40,12 @@ body{
     border-radius:10px;
     font-size:14px;
 }
+
+.timer{
+    color:#ff5722;
+    font-weight:bold;
+    margin-top:10px;
+}
 </style>
 </head>
 
@@ -55,20 +61,40 @@ body{
 <div class="step">✔ تم التحقق من الجهاز</div>
 <div class="step">✔ متبقي خطوة أخيرة</div>
 
-<button onclick="go()" class="btn">
-🚀 إكمال واستلام المكافأة
+<p class="timer">⏳ يرجى الانتظار: <span id="time">5</span> ثواني</p>
+
+<button id="btn" onclick="go()" class="btn" disabled>
+🔒 انتظر قليلاً...
 </button>
 
 <p style="font-size:12px;color:gray;margin-top:10px;">
-🔒 الخطوة الأخيرة لتفعيل المكافأة
+⚠️ يجب إكمال الخطوة الأخيرة لتفعيل المكافأة
 </p>
 
 </div>
 
 <script>
+
+let t = 5;
+
+let interval = setInterval(()=>{
+    t--;
+    document.getElementById("time").innerText = t;
+
+    if(t <= 0){
+        clearInterval(interval);
+
+        let btn = document.getElementById("btn");
+        btn.innerText = "🚀 استلام المكافأة الآن";
+        btn.disabled = false;
+    }
+
+},1000);
+
 function go(){
     window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74637";
 }
+
 </script>
 
 </body>
