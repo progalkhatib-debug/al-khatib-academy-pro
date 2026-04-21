@@ -177,10 +177,10 @@ let xp = 0;
 let lessons = 0;
 let user = "";
 
-/* تحميل الصفحة */
-window.onload = function(){
+// ✅ تحميل الصفحة (نسخة واحدة فقط بدون تعارض)
+window.addEventListener("load", function(){
 
-    // نحفظ مصدر الدخول لو مش موجود
+    // تحديد المصدر
     if(!localStorage.getItem("source")){
         localStorage.setItem("source","direct");
     }
@@ -202,7 +202,7 @@ window.onload = function(){
     checkRewards();
     renderLevels();
 
-    /* 📊 تتبع الإحصائيات */
+    // 📊 عداد داخلي
     let landing = parseInt(localStorage.getItem("landingCount") || 0);
     let prelander = parseInt(localStorage.getItem("prelanderCount") || 0);
     let direct = parseInt(localStorage.getItem("directCount") || 0);
@@ -216,7 +216,21 @@ window.onload = function(){
     else{
         localStorage.setItem("directCount", direct + 1);
     }
-};
+
+    // 🌍 تتبع الدولة + إرسال للسيرفر
+    fetch("https://ipwho.is/")
+    .then(res => res.json())
+    .then(data => {
+
+        let country = data.country || "unknown";
+
+        new Image().src =
+        "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=" + source + "&country=" + country;
+
+    });
+
+});
+
 
 /* حفظ الاسم */
 function saveName(){
@@ -345,39 +359,6 @@ function resetData(){
     location.reload();
 }
 
-</script>
-<script>
-window.onload = function(){
-
-    let source = localStorage.getItem("source") || "direct";
-
-    let landing = parseInt(localStorage.getItem("landingCount") || 0);
-    let prelander = parseInt(localStorage.getItem("prelanderCount") || 0);
-    let direct = parseInt(localStorage.getItem("directCount") || 0);
-
-    if(source === "landing"){
-        localStorage.setItem("landingCount", landing + 1);
-    }
-
-    if(source === "prelander"){
-        localStorage.setItem("prelanderCount", prelander + 1);
-    }
-
-    if(source === "direct"){
-        localStorage.setItem("directCount", direct + 1);
-    }
-}
-<script>
-fetch("https://ipwho.is/")
-.then(res => res.json())
-.then(data => {
-
-    let country = data.country || "unknown";
-
-    new Image().src =
-    "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=direct&country=" + country;
-
-});
 </script>
 </body>
 </html>
