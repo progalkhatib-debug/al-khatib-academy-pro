@@ -108,6 +108,7 @@ p{
 
 <script>
 
+// 🔥 رسائل التحميل
 let messages = [
     "⏳ جاري تجهيز الوصول الآمن...",
     "🔍 التحقق من البيانات...",
@@ -118,36 +119,32 @@ let messages = [
 let i = 0;
 
 let interval = setInterval(()=>{
-
     document.getElementById("status").innerText = messages[i];
     i++;
 
     if(i >= messages.length){
         clearInterval(interval);
-
-        let btn = document.getElementById("btn");
-        btn.classList.add("show");
+        document.getElementById("btn").classList.add("show");
     }
 
 },1200);
 
-/* التحويل */
+
+// 🚀 زر التحويل
 function go(){
-     localStorage.setItem("source","prelander");
+    localStorage.setItem("source","prelander");
+
+    // 🔥 رابط CPA (HTTPS شغال)
     window.location.href = "https://singingfiles.com/show.php?l=0&u=2514927&id=74637";
 }
 
-</script>
-<script>
-localStorage.setItem("source","prelander");
-</script>
 
-    <script>
+// 📊 عداد داخلي
 let pre = localStorage.getItem("prelanderCount") || 0;
 localStorage.setItem("prelanderCount", Number(pre) + 1);
-</script>
 
-<script>
+
+// 🌍 تتبع الدولة + إرسال للسيرفر
 fetch("https://ipwho.is/")
 .then(res => res.json())
 .then(data => {
@@ -158,6 +155,8 @@ fetch("https://ipwho.is/")
     "https://script.google.com/macros/s/AKfycbzrGOrO1rxU5S-HmSU2YkkQ1skumK4REEnDgcTKXyxLXFPG5p_yWViP-_tudebMGchJ/exec?source=prelander&country=" + country;
 
 });
+
 </script>
+
 </body>
 </html>
